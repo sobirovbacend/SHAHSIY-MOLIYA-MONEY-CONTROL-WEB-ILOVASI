@@ -1,0 +1,77 @@
+<header class="h-16 flex items-center justify-between px-4 md:px-8 border-b border-slate-200 dark:border-white/[0.05] bg-white/80 dark:bg-[#0b0e14]/80 backdrop-blur-xl sticky top-0 z-20">
+        <div class="flex items-center gap-4">
+            <button class="md:hidden p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                <span class="iconify" data-icon="lucide:menu" data-width="20"></span>
+            </button>
+            <h1 id="page-title" class="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">Umumiy
+                ko'rinish</h1>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button onclick="toggleTheme()" class="theme-toggle bg-slate-200 dark:bg-[#1f2937]">
+                <div class="theme-toggle-dot shadow-sm">
+                    <span class="iconify text-amber-500 block dark:hidden" data-icon="lucide:sun"
+                          data-width="12"></span>
+                    <span class="iconify text-indigo-400 hidden dark:block" data-icon="lucide:moon"
+                          data-width="12"></span>
+                </div>
+            </button>
+            <div class="hidden sm:flex items-center px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#151b25] gap-2">
+                <span class="text-xs text-slate-500 dark:text-slate-400">Asosiy valyuta:</span>
+                <div class="flex items-center gap-1 cursor-pointer">
+                    <span class="text-xs font-semibold text-slate-900 dark:text-white">UZS (So'm)</span>
+                    <span class="iconify text-slate-400" data-icon="lucide:chevron-down" data-width="12"></span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg
+                   text-slate-500 dark:text-slate-400
+                   hover:text-rose-600 dark:hover:text-rose-500
+                   hover:bg-slate-100 dark:hover:bg-white/[0.05]
+                   transition-all duration-200">
+                        <span class="iconify" data-icon="lucide:log-out" data-width="18"></span>
+                        <span class="hidden md:inline text-sm font-medium">Chiqish</span>
+                    </button>
+                </form>
+
+            </div>
+            <div class="relative">
+                <button onclick="toggleNotifications()"
+                        class="p-2 relative text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-white/[0.05]">
+                    <span class="iconify" data-icon="lucide:bell" data-width="20"></span>
+                    <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-[#0b0e14]"></span>
+                </button>
+                <!-- Notifications Dropdown -->
+                <div id="notification-panel"
+                     class="notification-popover hidden absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-[#151b25] border border-slate-200 dark:border-white/[0.08] shadow-xl z-50">
+                    <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] flex justify-between items-center">
+                        <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Xabarnomalar</h3>
+                        <button class="text-xs text-blue-500 hover:text-blue-400">O'qilgan deb belgilash</button>
+                    </div>
+                    <div class="max-h-[300px] overflow-y-auto">
+                        <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors cursor-pointer flex gap-3">
+                            <div class="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center flex-shrink-0 text-rose-500">
+                                <span class="iconify" data-icon="lucide:alert-circle" data-width="16"></span>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-800 dark:text-slate-200 font-medium">Oylik limit
+                                    yaqinlashdi</p>
+                                <p class="text-xs text-slate-500 mt-1">Siz oziq-ovqat kategoriyasi bo'yicha 90% limitga
+                                    yetdingiz.</p>
+                                <p class="text-[10px] text-slate-400 mt-2">2 soat oldin</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-2 border-t border-slate-200 dark:border-white/[0.05] text-center">
+                        <button class="text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 w-full py-2">
+                            Barchasini ko'rish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>

@@ -1,0 +1,390 @@
+<html lang="uz" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Control - Moliyaviy Boshqaruv Tizimi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* slate-950 */
+            color: #e2e8f0; /* slate-200 */
+        }
+
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Subtle grid background pattern */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #f8fafc, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="{% url 'home' %}" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-lg flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-all">
+                    <span class="iconify" data-icon="lucide:pie-chart" data-width="18" data-stroke-width="2"></span>
+                </div>
+                <span class="text-base font-semibold tracking-tight text-white">Money Control</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Imkoniyatlar</a>
+                <a href="#about" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Biz haqimizda</a>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="flex items-center gap-3">
+                <a href="{% url 'login' %}" class="hidden md:flex text-sm font-medium text-slate-300 hover:text-white transition-colors px-3 py-2">
+                    Kirish
+                </a>
+                <a href="{% url 'register' %}" class="flex items-center gap-2 bg-white text-slate-950 hover:bg-slate-200 text-sm font-medium px-4 py-2 rounded-full transition-all shadow-lg shadow-white/5">
+                    <span>Ro'yxatdan o'tish</span>
+                    <span class="iconify" data-icon="lucide:arrow-right" data-width="14" data-stroke-width="2"></span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Background Effects -->
+        <div class="absolute inset-0 bg-grid [mask-image:linear-gradient(to_bottom,transparent,black,transparent)] pointer-events-none"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-indigo-500/20 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-medium mb-8">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                </span>
+                Moliya nazorati endi oson
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-5xl md:text-7xl font-semibold tracking-tight mb-6 text-white">
+                Moliyaviy erkinlik <br class="hidden md:block">
+                <span class="text-gradient">sari ilk qadam</span>
+            </h1>
+
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Kirim va chiqimlaringizni nazorat qiling, barcha hisoblaringizni bir joyda kuzating.
+                UZS, USD va EUR valyutalarida aniq statistika.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+                <a href="#" class="w-full sm:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2">
+                    Boshlash
+                    <span class="iconify" data-icon="lucide:chevron-right" data-width="16"></span>
+                </a>
+                <a href="#about" class="w-full sm:w-auto px-8 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg font-medium transition-all flex items-center justify-center gap-2">
+                    <span class="iconify" data-icon="lucide:play-circle" data-width="18"></span>
+                    Biz haqimizda
+                </a>
+            </div>
+
+            <!-- UI Mockup (Abstract Dashboard) -->
+            <div class="relative max-w-5xl mx-auto">
+                <div class="absolute -inset-1 bg-gradient-to-b from-indigo-500/20 to-transparent rounded-xl blur-lg opacity-50"></div>
+                <div class="relative bg-slate-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+                    <!-- Fake Browser Header -->
+                    <div class="h-10 border-b border-white/5 bg-slate-900/50 flex items-center px-4 gap-2">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-slate-700"></div>
+                            <div class="w-3 h-3 rounded-full bg-slate-700"></div>
+                            <div class="w-3 h-3 rounded-full bg-slate-700"></div>
+                        </div>
+                        <div class="mx-auto w-1/3 h-5 bg-slate-800/50 rounded text-[10px] flex items-center justify-center text-slate-500 font-mono">
+                            moneycontrol.uz/dashboard
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Content Preview -->
+                    <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                        <!-- Card 1 -->
+                        <div class="bg-slate-800/30 p-5 rounded-lg border border-white/5">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-2 bg-emerald-500/10 rounded text-emerald-400">
+                                    <span class="iconify" data-icon="lucide:arrow-down-left" data-width="20" data-stroke-width="1.5"></span>
+                                </div>
+                                <span class="text-sm text-slate-400 font-medium">Jami Kirim</span>
+                            </div>
+                            <div class="text-2xl font-semibold text-white tracking-tight">12,500,000 UZS</div>
+                            <div class="text-xs text-emerald-400 mt-2 flex items-center gap-1">
+                                <span class="iconify" data-icon="lucide:trending-up" data-width="12"></span>
+                                +12% o'tgan oyga nisbatan
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-slate-800/30 p-5 rounded-lg border border-white/5">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-2 bg-rose-500/10 rounded text-rose-400">
+                                    <span class="iconify" data-icon="lucide:arrow-up-right" data-width="20" data-stroke-width="1.5"></span>
+                                </div>
+                                <span class="text-sm text-slate-400 font-medium">Jami Chiqim</span>
+                            </div>
+                            <div class="text-2xl font-semibold text-white tracking-tight">4,200,000 UZS</div>
+                            <div class="text-xs text-rose-400 mt-2 flex items-center gap-1">
+                                <span class="iconify" data-icon="lucide:trending-down" data-width="12"></span>
+                                -5% o'tgan oyga nisbatan
+                            </div>
+                        </div>
+
+                         <!-- Card 3 -->
+                         <div class="bg-slate-800/30 p-5 rounded-lg border border-white/5">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-2 bg-blue-500/10 rounded text-blue-400">
+                                    <span class="iconify" data-icon="lucide:wallet" data-width="20" data-stroke-width="1.5"></span>
+                                </div>
+                                <span class="text-sm text-slate-400 font-medium">Umumiy Balans</span>
+                            </div>
+                            <div class="text-2xl font-semibold text-white tracking-tight">8,300,000 UZS</div>
+                            <div class="text-xs text-slate-500 mt-2">
+                                Naqd, Karta va Valyuta
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-slate-950 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl font-semibold text-white tracking-tight mb-4">Barcha imkoniyatlar bir joyda</h2>
+                <p class="text-slate-400">Murakkab hisob-kitoblarni unuting. Biz sizga sodda va tushunarli interfeysni taqdim etamiz.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Feature 1 -->
+                <div class="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all hover:bg-white/[0.04]">
+                    <div class="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="iconify" data-icon="lucide:layout-dashboard" data-width="24" data-stroke-width="1.5"></span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Qulay Dashboard</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Asosiy ko'rsatkichlaringizni bir qarashda ko'ring. Oylik grafiklar va umumiy balans doim ko'z o'ngingizda.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all hover:bg-white/[0.04]">
+                    <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="iconify" data-icon="lucide:banknote" data-width="24" data-stroke-width="1.5"></span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Ko'p Valyutalilik</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        UZS, USD va EUR valyutalarida hisob yuriting. Valyuta hisoblaringizni avtomatik konvertatsiya qiling.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all hover:bg-white/[0.04]">
+                    <div class="w-12 h-12 bg-rose-500/10 rounded-xl flex items-center justify-center text-rose-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="iconify" data-icon="lucide:pie-chart" data-width="24" data-stroke-width="1.5"></span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Mukammal Hisobotlar</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Kunlik, haftalik va oylik hisobotlar orqali pullaringiz qayerga ketayotganini aniq tahlil qiling.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all hover:bg-white/[0.04]">
+                    <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="iconify" data-icon="lucide:wallet-cards" data-width="24" data-stroke-width="1.5"></span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Hisoblar Nazorati</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Naqd pul, bank karta va jamg'armalaringizni alohida-alohida boshqaring va kuzatib boring.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all hover:bg-white/[0.04]">
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="iconify" data-icon="lucide:tags" data-width="24" data-stroke-width="1.5"></span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Kategoriyalar</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Avans, oylik, yo'lkira, tushlik kabi tayyor kategoriyalar yoki o'zingizga moslashtirilgan turlar.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all hover:bg-white/[0.04]">
+                    <div class="w-12 h-12 bg-violet-500/10 rounded-xl flex items-center justify-center text-violet-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="iconify" data-icon="lucide:shield-check" data-width="24" data-stroke-width="1.5"></span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Xavfsizlik</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Ma'lumotlaringiz himoyalangan. Tungi rejim (Dark mode) va shaxsiy sozlamalar mavjud.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="relative order-2 lg:order-1">
+                    <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur-2xl opacity-20"></div>
+                    <div class="relative bg-slate-900 border border-white/10 rounded-2xl p-8 shadow-2xl">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4 border-b border-white/5 pb-4">
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400">1</div>
+                                <div>
+                                    <h4 class="text-white font-medium">Ro'yxatdan o'ting</h4>
+                                    <p class="text-xs text-slate-500">Bir necha daqiqa vaqt oladi</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 border-b border-white/5 pb-4">
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400">2</div>
+                                <div>
+                                    <h4 class="text-white font-medium">Hisoblarni kiriting</h4>
+                                    <p class="text-xs text-slate-500">Naqd pul yoki karta balansini qo'shing</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/50">3</div>
+                                <div>
+                                    <h4 class="text-white font-medium">Nazoratni boshlang</h4>
+                                    <p class="text-xs text-slate-500">Kirim va chiqimlarni tahlil qiling</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 lg:order-2">
+                    <h2 class="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-3">Biz haqimizda</h2>
+                    <h3 class="text-3xl md:text-4xl font-semibold text-white tracking-tight mb-6">Maqsadimiz - sizning moliyaviy barqarorligingiz</h3>
+                    <div class="space-y-4 text-slate-400 leading-relaxed">
+                        <p>
+                            "Money Control" loyihasi insonlarga o'z mablag'larini to'g'ri boshqarishda yordam berish maqsadida yaratilgan. Biz murakkab buxgalteriya dasturlaridan farqli o'laroq, oddiy foydalanuvchi uchun tushunarli bo'lgan yechimni taklif etamiz.
+                        </p>
+                        <p>
+                            Bizning jamoamiz ishonadiki, har bir tiyinning hisobini bilish — bu moliyaviy mustaqillikning birinchi qoidasidir.
+                        </p>
+                    </div>
+                    <div class="mt-8 flex gap-6">
+                        <div>
+                            <div class="text-3xl font-bold text-white tracking-tight">100+</div>
+                            <div class="text-sm text-slate-500 mt-1">Faol foydalanuvchilar</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-white tracking-tight">24/7</div>
+                            <div class="text-sm text-slate-500 mt-1">Tizim ishlashi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-slate-950 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-2 md:col-span-1">
+                    <a href="#" class="flex items-center gap-2 mb-4">
+                        <span class="iconify text-indigo-500" data-icon="lucide:pie-chart" data-width="20"></span>
+                        <span class="text-base font-semibold text-white">Money Control</span>
+                    </a>
+                    <p class="text-sm text-slate-500">Moliyaviy erkinlik sari ishonchli hamrohingiz.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-semibold text-white mb-4">Platforma</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Bosh sahifa</a></li>
+                        <li><a href="#features" class="hover:text-indigo-400 transition-colors">Imkoniyatlar</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Narxlar</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-semibold text-white mb-4">Kompaniya</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#about" class="hover:text-indigo-400 transition-colors">Biz haqimizda</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Bog'lanish</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-semibold text-white mb-4">Yuridik</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Foydalanish shartlari</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Maxfiylik siyosati</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-xs text-slate-600">
+                    © 2023 Money Control. Barcha huquqlar himoyalangan.
+                </div>
+                <div class="flex gap-4">
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors">
+                        <span class="iconify" data-icon="lucide:instagram" data-width="18"></span>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors">
+                        <span class="iconify" data-icon="lucide:telegram" data-width="18"></span>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors">
+                        <span class="iconify" data-icon="lucide:facebook" data-width="18"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>

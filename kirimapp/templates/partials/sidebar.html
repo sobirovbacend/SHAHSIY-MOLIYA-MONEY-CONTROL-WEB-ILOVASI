@@ -1,0 +1,60 @@
+<aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-white/[0.05] bg-white dark:bg-[#0b0e14] hidden md:flex flex-col z-30">
+    <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-white/[0.05]">
+        <div class="flex items-center gap-2">
+            <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white">
+                <span class="iconify" data-icon="lucide:zap" data-width="18"></span>
+            </div>
+            <span class="font-semibold text-lg text-slate-900 dark:text-white tracking-tight">MoneyControl</span>
+        </div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto py-6 space-y-1 px-3">
+        <button onclick="switchPage('dashboard')" id="nav-dashboard"
+                class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.03] transition-all">
+            <span class="iconify" data-icon="lucide:layout-grid" data-width="18"></span>
+            Umumiy ko'rinish
+        </button>
+        <a href="{% url 'income-list'  %}" id="nav-income"
+           class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.03] transition-all">
+            <span class="iconify" data-icon="lucide:arrow-down-left" data-width="18"></span>
+            Kirimlar
+        </a>
+
+
+        <button onclick="switchPage('expense')" id="nav-expense"
+                class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.03] transition-all">
+            <span class="iconify" data-icon="lucide:arrow-up-right" data-width="18"></span>
+            Chiqimlar
+        </button>
+        <button onclick="switchPage('accounts')" id="nav-accounts"
+                class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.03] transition-all">
+            <span class="iconify" data-icon="lucide:wallet" data-width="18"></span>
+            Hisoblar
+        </button>
+        <button onclick="switchPage('reports')" id="nav-reports"
+                class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.03] transition-all">
+            <span class="iconify" data-icon="lucide:pie-chart" data-width="18"></span>
+            Hisobotlar
+        </button>
+
+        <div class="pt-4 mt-4 border-t border-slate-200 dark:border-white/[0.05]">
+            <button onclick="switchPage('settings')" id="nav-settings"
+                    class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.03] transition-all">
+                <span class="iconify" data-icon="lucide:settings" data-width="18"></span>
+                Sozlamalar
+            </button>
+        </div>
+    </nav>
+
+    <div class="p-4 border-t border-slate-200 dark:border-white/[0.05]">
+        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.03] cursor-pointer transition-colors">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-xs font-bold text-white">
+                {{ user.first_name|first|upper }}{{ user.username|first|upper }}
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ user.username }}</p>
+                <p class="text-xs text-slate-500 truncate">{{ user.first_name }}</p>
+            </div>
+        </div>
+    </div>
+</aside>

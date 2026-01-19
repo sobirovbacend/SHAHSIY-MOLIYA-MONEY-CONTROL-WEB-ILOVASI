@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block page_title %} Bosh sahifa {% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: '#0b0e14',
+                        panel: '#151b25',
+                        accent: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <!-- Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .panel {
+            background-color: #151b25;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+        .light .panel {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+
+        .nav-item.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border-right: 2px solid #3b82f6;
+        }
+        .light .nav-item.active {
+            background-color: #eff6ff;
+            color: #2563eb;
+        }
+
+        /* Form Inputs */
+        .input-field {
+            width: 100%;
+            background-color: rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.875rem;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .dark .input-field {
+            background-color: rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.08);
+            color: #f1f5f9;
+        }
+        .input-field:focus { border-color: #3b82f6; }
+        .dark .input-field:focus { border-color: #3b82f6; }
+
+        /* Big Amount Input */
+        .amount-input {
+            background: transparent; border: none; outline: none; text-align: center; font-weight: 700; width: 100%;
+        }
+
+        /* Toggle Switch */
+        .theme-toggle {
+            position: relative; width: 44px; height: 24px; border-radius: 999px; cursor: pointer; transition: background-color 0.3s;
+        }
+        .theme-toggle-dot {
+            position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: white;
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); display: flex; align-items: center; justify-content: center;
+        }
+        .dark .theme-toggle-dot { transform: translateX(20px); background: #0f172a; }
+
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .notification-popover {
+            transform-origin: top right;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .notification-popover.hidden { opacity: 0; transform: scale(0.95) translateY(-10px); pointer-events: none; }
+        .notification-popover.visible { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+    </style>
+</head>
+
+
+<body class="antialiased h-screen flex bg-slate-50 text-slate-900 dark:bg-[#0b0e14] dark:text-slate-200 transition-colors duration-300">
+<!-- Sidebar -->
+{% block sidebar %}
+
+{% endblock %}
+
+<main class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-[#0b0e14] transition-colors relative">
+    <!-- Header -->
+    {% block header %}
+
+
+    {% endblock %}
+    <!-- Dynamic Content Container -->
+
+
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto">
+        {% block contentcontainer %}
+
+        {% endblock %}
+
+
+    </div>
+
+
+
+</main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    // --- Navigation Logic ---
+    function switchPage(pageId) {
+        document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+
+        const target = document.getElementById('page-' + pageId);
+        if(target) target.classList.remove('hidden');
+
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+        // Map sub-pages to parent sidebar items for highlighting
+        let parentNavId = pageId;
+        if(pageId === 'add-income') parentNavId = 'income';
+        if(pageId === 'add-expense') parentNavId = 'expense';
+        if(pageId === 'add-account') parentNavId = 'accounts';
+
+        const navBtn = document.getElementById('nav-' + parentNavId);
+        if(navBtn) navBtn.classList.add('active');
+
+        const titles = {
+            'dashboard': "Umumiy ko'rinish",
+            'income': "Kirimlar",
+            'expense': "Chiqimlar",
+            'accounts': "Hisoblar",
+            'reports': "Hisobotlar",
+            'settings': "Sozlamalar",
+            'add-income': "Kirim qo'shish",
+            'add-expense': "Chiqim qo'shish",
+            'add-account': "Hisob qo'shish"
+        };
+        document.getElementById('page-title').innerText = titles[pageId] || 'MoneyCtrl';
+
+        if(pageId === 'dashboard') initDashboardChart();
+        if(pageId === 'reports') initReportCharts();
+    }
+
+    function toggleNotifications() {
+        const panel = document.getElementById('notification-panel');
+        if (panel.classList.contains('hidden')) {
+            panel.classList.remove('hidden');
+            setTimeout(() => panel.classList.add('visible'), 10);
+        } else {
+            panel.classList.remove('visible');
+            setTimeout(() => panel.classList.add('hidden'), 200);
+        }
+    }
+
+    document.addEventListener('click', function(event) {
+        const panel = document.getElementById('notification-panel');
+        const btn = event.target.closest('button');
+        const isBellBtn = btn && btn.querySelector('[data-icon="lucide:bell"]');
+
+        if (!panel.contains(event.target) && !isBellBtn && !panel.classList.contains('hidden')) {
+            panel.classList.remove('visible');
+            setTimeout(() => panel.classList.add('hidden'), 200);
+        }
+    });
+
+    function toggleTheme() {
+        const html = document.getElementById('htmlTag');
+        html.classList.toggle('dark');
+        html.classList.toggle('light');
+
+        const activePage = document.querySelector('.nav-item.active').id.replace('nav-','');
+        if(activePage === 'dashboard') initDashboardChart();
+        if(activePage === 'reports') initReportCharts();
+    }
+
+    let dashboardChart, pieChart, barChart;
+
+    function getThemeColors() {
+        const isDark = document.getElementById('htmlTag').classList.contains('dark');
+        return {
+            grid: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+            text: isDark ? '#64748b' : '#94a3b8',
+            tooltipBg: isDark ? '#1e293b' : '#ffffff',
+            tooltipText: isDark ? '#f8fafc' : '#0f172a'
+        };
+    }
+
+    function initDashboardChart() {
+        const ctx = document.getElementById('dashboardChart');
+        if(!ctx) return;
+        const theme = getThemeColors();
+        if(dashboardChart) dashboardChart.destroy();
+        const gradientInc = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
+        gradientInc.addColorStop(0, 'rgba(16, 185, 129, 0.2)');
+        gradientInc.addColorStop(1, 'rgba(16, 185, 129, 0)');
+         const gradientExp = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
+        gradientExp.addColorStop(0, 'rgba(244, 63, 94, 0.2)');
+        gradientExp.addColorStop(1, 'rgba(244, 63, 94, 0)');
+        dashboardChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyun', 'Iyul'],
+                datasets: [
+                    { label: 'Kirim', data: [6, 15, 10, 18, 24, 20, 28], borderColor: '#10b981', backgroundColor: gradientInc, borderWidth: 2, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#151b25', pointBorderColor: '#10b981', pointBorderWidth: 2, fill: true },
+                    { label: 'Chiqim', data: [4, 8, 6, 10, 12, 11, 9], borderColor: '#f43f5e', backgroundColor: gradientExp, borderWidth: 2, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#151b25', pointBorderColor: '#f43f5e', pointBorderWidth: 2, fill: true }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+                plugins: { legend: { display: false }, tooltip: { backgroundColor: theme.tooltipBg, titleColor: theme.tooltipText, bodyColor: theme.tooltipText, borderColor: theme.grid, borderWidth: 1, padding: 10, displayColors: true, usePointStyle: true } },
+                scales: { x: { grid: { display: false }, ticks: { color: theme.text, font: { family: 'Inter', size: 10 } } }, y: { display: true, grid: { color: theme.grid, borderDash: [4, 4] }, ticks: { display: false } } }
+            }
+        });
+    }
+
+    function initReportCharts() {
+        const theme = getThemeColors();
+        const ctxPie = document.getElementById('categoryChart');
+        if(ctxPie) {
+            if(pieChart) pieChart.destroy();
+            pieChart = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Oziq-ovqat', 'Transport', 'Uy-ro\'zg\'or', 'Kiyim-kechak'],
+                    datasets: [{ data: [45, 20, 25, 10], backgroundColor: ['#f43f5e', '#6366f1', '#10b981', '#f59e0b'], borderWidth: 0, hoverOffset: 10 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels: { color: theme.text, font: { family: 'Inter', size: 11 }, boxWidth: 10, padding: 20 } } } }
+            });
+        }
+        const ctxBar = document.getElementById('barChart');
+        if(ctxBar) {
+            if(barChart) barChart.destroy();
+            barChart = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt'],
+                    datasets: [ { label: 'Kirim', data: [8, 9, 10, 8.5, 11, 12.4], backgroundColor: '#10b981', borderRadius: 4, barThickness: 12 }, { label: 'Chiqim', data: [5, 6, 5.5, 6, 7, 4.2], backgroundColor: '#f43f5e', borderRadius: 4, barThickness: 12 } ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: theme.text, font: { family: 'Inter', size: 10 } } }, y: { grid: { color: theme.grid }, ticks: { color: theme.text, font: { family: 'Inter', size: 10 } } } } }
+            });
+        }
+    }
+
+    window.addEventListener('load', () => { initDashboardChart(); });
+</script>
+</body>
+</html>

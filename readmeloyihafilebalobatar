@@ -1,0 +1,25 @@
+├── templates/
+│   ├── base.html               # Asosiy layout
+│   ├── dashboard.html          # Dashboard sahifasi
+│   ├── incomes/
+│   │   ├── list.html          # Kirimlar ro'yxati
+│   │   └── create.html        # Yangi kirim
+│   ├── expenses/
+│   │   ├── list.html          # Chiqimlar ro'yxati
+│   │   └── create.html        # Yangi chiqim
+│   ├── accounts/
+│   │   ├── list.html          # Hisoblar ro'yxati
+│   │   └── create.html        # Yangi hisob
+│   ├── reports.html           # Hisobotlar sahifasi
+│   └── settings.html          # Sozlamalar sahifasi
+
+
+
+
+hisoblashi default valyutani misol :
+| Hisob          | Balance | Currency | UZS ga aylantirilgan  |
+| -------------- | ------- | -------- | --------------------- |
+| Ikkinchi karta | 20.00   | EUR      | 20 × 13,500 = 270,000 |
+| naqd           | 11,000  | UZS      | 11,000 × 1 = 11,000   |
+| Asosiy karta   | 20.00   | USD      | 20 × 12,500 = 250,000 |
+

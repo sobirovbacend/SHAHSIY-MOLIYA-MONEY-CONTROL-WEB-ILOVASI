@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Kirimlar
+{% endblock %}
+{% block sidebar %}
+<aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-white/[0.05] bg-white dark:bg-[#0b0e14] hidden md:flex flex-col z-30">
+
+    <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-white/[0.05]">
+        <div class="flex items-center gap-2">
+            <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white">
+                <span class="iconify" data-icon="lucide:zap" data-width="18"></span>
+            </div>
+            <span class="font-semibold text-lg text-slate-900 dark:text-white tracking-tight">MoneyCtrl</span>
+        </div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto py-6 space-y-1 px-3">
+        <a href="{% url 'dashboard' %}"
+           class="nav-item  w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+          text-slate-500 dark:text-slate-400
+          hover:text-slate-900 dark:hover:text-white
+          hover:bg-slate-100 dark:hover:bg-white/[0.03]
+          transition-all">
+            <span class="iconify" data-icon="lucide:layout-grid" data-width="18"></span>
+            Umumiy ko'rinish
+        </a>
+
+        <a href="{% url 'income-list' %}"
+           class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+          text-slate-500 dark:text-slate-400
+          hover:text-slate-900 dark:hover:text-white
+          hover:bg-slate-100 dark:hover:bg-white/[0.03]
+          transition-all">
+
+            <span class="iconify" data-icon="lucide:arrow-down-left" data-width="18"></span>
+            Kirimlar
+        </a>
+
+        <a href="{% url 'expense-list' %}"
+           class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+          text-slate-500 dark:text-slate-400
+          hover:text-slate-900 dark:hover:text-white
+          hover:bg-slate-100 dark:hover:bg-white/[0.03]
+          transition-all">
+            <span class="iconify" data-icon="lucide:arrow-up-right" data-width="18"></span>
+            Chiqimlar
+        </a>
+
+        <a href="{% url 'account-list' %}"
+           class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+          text-slate-500 dark:text-slate-400
+          hover:text-slate-900 dark:hover:text-white
+          hover:bg-slate-100 dark:hover:bg-white/[0.03]
+          transition-all">
+            <span class="iconify" data-icon="lucide:wallet" data-width="18"></span>
+            Hisoblar
+        </a>
+
+
+        <a href="{% url 'report-list' %}"
+           class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+          text-slate-500 dark:text-slate-400
+          hover:text-slate-900 dark:hover:text-white
+          hover:bg-slate-100 dark:hover:bg-white/[0.03]
+          transition-all">
+            <span class="iconify" data-icon="lucide:pie-chart" data-width="18"></span>
+            Hisobotlar
+        </a>
+
+
+    </nav>
+    <div class="pt-4 mt-4 border-t border-slate-200 dark:border-white/[0.05]">
+        <a href="{% url 'settings' %}"
+           class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+              text-slate-500 dark:text-slate-400
+              hover:text-slate-900 dark:hover:text-white
+              hover:bg-slate-100 dark:hover:bg-white/[0.03]
+              transition-all">
+            <span class="iconify" data-icon="lucide:settings" data-width="18"></span>
+            Sozlamalar
+        </a>
+    </div>
+
+<div class="p-4 border-t border-slate-200 dark:border-white/[0.05]">
+    <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.03] cursor-pointer transition-colors">
+
+        <!-- AVATAR -->
+        <div class="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-tr from-blue-500 to-indigo-500
+                    flex items-center justify-center text-xs font-bold text-white">
+
+            {% if request.user.userprofile.avatar %}
+                <img src="{{ request.user.userprofile.avatar.url }}"
+                     alt="Avatar"
+                     class="w-full h-full object-cover">
+            {% else %}
+                {{ request.user.first_name|default:"U"|first }}{{ request.user.last_name|default:""|first }}
+            {% endif %}
+        </div>
+
+        <!-- USER INFO -->
+        <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
+                {{ user.first_name }} {{ user.last_name }}
+            </p>
+            <p class="text-xs text-slate-500 truncate">
+                {{ user.username }}
+            </p>
+        </div>
+
+    </div>
+</div>
+
+</aside>
+{% endblock %}
+
+{% block header%}
+<header class="h-16 flex items-center justify-between px-4 md:px-8 border-b border-slate-200 dark:border-white/[0.05] bg-white/80 dark:bg-[#0b0e14]/80 backdrop-blur-xl sticky top-0 z-20">
+    <div class="flex items-center gap-4">
+        <button class="md:hidden p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            <span class="iconify" data-icon="lucide:menu" data-width="20"></span>
+        </button>
+        <h1 id="page-title" class="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">Kirimlar
+            ro'yxati</h1>
+    </div>
+
+    <div class="flex items-center gap-4">
+        <button onclick="toggleTheme()" class="theme-toggle bg-slate-200 dark:bg-[#1f2937]">
+            <div class="theme-toggle-dot shadow-sm">
+                    <span class="iconify text-amber-500 block dark:hidden" data-icon="lucide:sun"
+                          data-width="12"></span>
+                <span class="iconify text-indigo-400 hidden dark:block" data-icon="lucide:moon"
+                      data-width="12"></span>
+            </div>
+        </button>
+
+        <div class="relative">
+            <button onclick="toggleNotifications()"
+                    class="p-2 relative text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-white/[0.05]">
+                <span class="iconify" data-icon="lucide:bell" data-width="20"></span>
+                <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-[#0b0e14]"></span>
+            </button>
+            <!-- Notifications Dropdown -->
+            <div id="notification-panel"
+                 class="notification-popover hidden absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-[#151b25] border border-slate-200 dark:border-white/[0.08] shadow-xl z-50">
+                <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] flex justify-between items-center">
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Xabarnomalar</h3>
+                    <button class="text-xs text-blue-500 hover:text-blue-400">O'qilgan deb belgilash</button>
+                </div>
+                <div class="max-h-[300px] overflow-y-auto">
+                    <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors cursor-pointer flex gap-3">
+                        <div class="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center flex-shrink-0 text-rose-500">
+                            <span class="iconify" data-icon="lucide:alert-circle" data-width="16"></span>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-800 dark:text-slate-200 font-medium">Oylik limit
+                                yaqinlashdi</p>
+                            <p class="text-xs text-slate-500 mt-1">Siz oziq-ovqat kategoriyasi bo'yicha 90% limitga
+                                yetdingiz.</p>
+                            <p class="text-[10px] text-slate-400 mt-2">2 soat oldin</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 border-t border-slate-200 dark:border-white/[0.05] text-center">
+                    <button class="text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 w-full py-2">
+                        Barchasini ko'rish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+
+{% block contentcontainer %}
+<div id="content-area" class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scroll-smooth">
+
+    <!-- PAGE: INCOME -->
+    <div class="page-section max-w-[1400px] mx-auto space-y-6 fade-in">
+        <div class="flex justify-between items-center">
+            <div>
+                <h2 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight">Kirimlar Tarixi</h2>
+                <p class="text-sm text-slate-500 mt-1">Barcha daromad manbalari va o'tkazmalar.</p>
+            </div>
+            <a href="{% url 'add-income' %}"
+               class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-xs font-medium flex items-center gap-2 transition-colors shadow-lg shadow-emerald-500/20">
+                <span class="iconify" data-icon="lucide:plus" data-width="16"></span> Yangi Kirim
+            </a>
+        </div>
+
+        <div class="panel rounded-2xl overflow-hidden">
+            <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] flex flex-col md:flex-row gap-4">
+                <div class="relative flex-1">
+                    <span class="iconify absolute left-3 top-2.5 text-slate-400" data-icon="lucide:search"
+                          data-width="16"></span>
+                    <input type="text" placeholder="Qidirish..."
+                           class="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-[#0b0e14] border border-slate-200 dark:border-white/[0.1] rounded-lg text-sm outline-none text-slate-900 dark:text-white">
+                </div>
+            </div>
+
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 dark:bg-white/[0.02] border-b border-slate-200 dark:border-white/[0.05]">
+                <tr>
+                    <th class="px-6 py-3 text-[11px] uppercase font-semibold text-slate-500">Sana</th>
+                    <th class="px-6 py-3 text-[11px] uppercase font-semibold text-slate-500">Manba</th>
+                    <th class="px-6 py-3 text-[11px] uppercase font-semibold text-slate-500">Izoh</th>
+                    <th class="px-6 py-3 text-[11px] uppercase font-semibold text-slate-500 text-right">Summa</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-white/[0.03]">
+                {% for income in incomes %}
+                <tr class="group hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors">
+                    <td class="px-6 py-4 text-xs text-slate-500">
+                        {{ income.date|date:"d M, Y" }}{% if income.time %}, {{ income.time|time:"H:i" }}{% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium
+                                     {% if income.source == 'Maosh' %}
+                                        bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20
+                                     {% else %}
+                                        bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20
+                                     {% endif %}">
+                            {{ income.source }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-slate-900 dark:text-white font-medium">{{ income.description }}</td>
+                    <td class="px-6 py-4 text-sm font-medium text-emerald-600 dark:text-emerald-400 text-right">
+                        + {{ income.amount|floatformat:0 }} {{ income.currency }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="px-6 py-4 text-sm text-gray-500 text-center dark:text-gray-400">Kirimlar mavjud emas</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
