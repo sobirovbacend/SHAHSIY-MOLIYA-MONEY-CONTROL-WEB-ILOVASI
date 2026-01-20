@@ -73,40 +73,46 @@ def dashboard_view(request):
     expenses = Expense.objects.filter(user=user)
 
     # ======================
-    # 2. JAMI KIRIM, CHIQIM VA UMUMIY BALANS
+    # 2. OYLIGI KIRIM-CHIQIMLAR (oy boshidan hozirgacha)
+    # ======================
+    today = now().date()
+    start_month = today.replace(day=1)
+
+    incomes_this_month = incomes.filter(date__gte=start_month)
+    expenses_this_month = expenses.filter(date__gte=start_month)
+
+    # ======================
+    # 3. JAMI KIRIM, CHIQIM VA UMUMIY BALANS
     # ======================
     total_income_uzs = sum(
-        float(inc.amount) * CURRENCY_RATES.get(inc.currency, 1) for inc in incomes
+        float(inc.amount) * CURRENCY_RATES.get(inc.currency.upper(), 1)
+        for inc in incomes_this_month
     )
     total_expense_uzs = sum(
-        float(exp.amount) * CURRENCY_RATES.get(exp.currency, 1) for exp in expenses
+        float(exp.amount) * CURRENCY_RATES.get(exp.currency.upper(), 1)
+        for exp in expenses_this_month
     )
     total_balance_uzs = total_income_uzs - total_expense_uzs
 
     # ======================
-    # 3. Minglik format
+    # 4. Formatlash mingliklar bilan
     # ======================
     total_income_uzs_fmt = f"{total_income_uzs:,.0f}"      # 1,250,000
     total_expense_uzs_fmt = f"{total_expense_uzs:,.0f}"    # 675,000
     total_balance_uzs_fmt = f"{total_balance_uzs:,.0f}"    # 575,000
 
     # ======================
-    # 4. Dinamik tahlil (oylik misol)
+    # 5. Dinamik tahlil (chart uchun)
     # ======================
-    today = now().date()
-    start_month = today.replace(day=1)  # oy boshidan
-
     chart_data = defaultdict(lambda: {'income': 0, 'expense': 0})
 
-    # Kirimlar
-    for inc in incomes.filter(date__gte=start_month):
-        key = inc.date.strftime('%d %b')  # misol: 20 Jan
-        chart_data[key]['income'] += float(inc.amount) * CURRENCY_RATES.get(inc.currency, 1)
+    for inc in incomes_this_month:
+        key = inc.date.strftime('%d %b')
+        chart_data[key]['income'] += float(inc.amount) * CURRENCY_RATES.get(inc.currency.upper(), 1)
 
-    # Chiqimlar
-    for exp in expenses.filter(date__gte=start_month):
+    for exp in expenses_this_month:
         key = exp.date.strftime('%d %b')
-        chart_data[key]['expense'] += float(exp.amount) * CURRENCY_RATES.get(exp.currency, 1)
+        chart_data[key]['expense'] += float(exp.amount) * CURRENCY_RATES.get(exp.currency.upper(), 1)
 
     labels = list(chart_data.keys())
     income_values = [chart_data[label]['income'] for label in labels]
@@ -114,18 +120,17 @@ def dashboard_view(request):
 
     context = {
         'accounts': accounts,
-        'incomes': incomes,
-        'expenses': expenses,
+        'incomes': incomes_this_month,
+        'expenses': expenses_this_month,
         'total_income_uzs': total_income_uzs_fmt,
         'total_expense_uzs': total_expense_uzs_fmt,
         'total_balance_uzs': total_balance_uzs_fmt,
-        'labels': json.dumps(labels),                   # JS uchun safe
-        'income_values': json.dumps(income_values),     # float ga aylantirilgan
-        'expense_values': json.dumps(expense_values),   # float ga aylantirilgan
+        'labels': json.dumps(labels),
+        'income_values': json.dumps(income_values),
+        'expense_values': json.dumps(expense_values),
     }
 
     return render(request, 'dashboard.html', context)
-
 
 from django.db.models import Sum, Q
 from datetime import datetime, timedelta

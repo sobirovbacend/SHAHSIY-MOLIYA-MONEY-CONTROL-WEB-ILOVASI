@@ -1,5 +1,7 @@
+{% include "partials/sidebar.html" %}
+
 <!DOCTYPE html>
-<html lang="uz" class="dark" id="htmlTag">
+<html lang="uz" class="light" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -104,20 +106,13 @@
 
 
 <body class="antialiased h-screen flex bg-slate-50 text-slate-900 dark:bg-[#0b0e14] dark:text-slate-200 transition-colors duration-300">
-<!-- Sidebar -->
-{% block sidebar %}
 
-{% endblock %}
 
 <main class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-[#0b0e14] transition-colors relative">
-    <!-- Header -->
-    {% block header %}
 
 
-    {% endblock %}
-    <!-- Dynamic Content Container -->
-
-
+{% block header %}
+{% endblock%}
     <!-- Content -->
     <div class="flex-1 overflow-y-auto">
         {% block contentcontainer %}
@@ -128,27 +123,34 @@
     </div>
 
 
-
 </main>
 
 
 
+<script>
+    const html = document.getElementById('htmlTag');
 
+    // Page ochilganda
+    if (localStorage.getItem('theme') === 'dark') {
+        html.classList.add('dark');
+        html.classList.remove('light');
+    } else {
+        html.classList.add('light');
+        html.classList.remove('dark');
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    function toggleTheme() {
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            html.classList.add('light');
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.classList.add('dark');
+            html.classList.remove('light');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+</script>
 
 <script>
     // --- Navigation Logic ---
