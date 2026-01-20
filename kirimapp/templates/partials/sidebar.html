@@ -1,105 +1,145 @@
+{% load i18n %}
 <aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-white/[0.05] bg-white dark:bg-[#0b0e14] hidden md:flex flex-col z-30">
 
+    <!-- LOGO -->
     <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-white/[0.05]">
         <div class="flex items-center gap-2">
             <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white">
                 <span class="iconify" data-icon="lucide:zap" data-width="18"></span>
             </div>
-            <span class="font-semibold text-lg text-slate-900 dark:text-white tracking-tight">MoliyaviyNazorat</span>
+            <span class="font-semibold text-lg text-slate-900 dark:text-white tracking-tight">{% trans "MoliyaviyNazorat" %}</span>
         </div>
     </div>
 
+    <!-- NAVIGATION -->
     <nav class="flex-1 overflow-y-auto py-6 space-y-1 px-3">
-<!-- DASHBOARD -->
-<a href="{% url 'dashboard' %}"
-   class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
-   {% if request.resolver_match.url_name == 'dashboard' %}
-       bg-blue-50 dark:bg-blue-500/10
-       text-blue-700 dark:text-blue-400
-       border-l-4 border-blue-600
-       shadow-sm
-   {% else %}
-       text-slate-500 dark:text-slate-400
-       hover:text-slate-900 dark:hover:text-white
-       hover:bg-slate-100 dark:hover:bg-white/[0.03]
-   {% endif %}">
-    <span class="iconify" data-icon="lucide:layout-grid" data-width="18"></span>
-    Umumiy ko'rinish
-</a>
+        <!-- DASHBOARD -->
+        <a href="{% url 'dashboard' %}" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
+            {% if request.resolver_match.url_name == 'dashboard' %}
+                bg-blue-50 dark:bg-blue-500/10
+                text-blue-700 dark:text-blue-400
+                border-l-4 border-blue-600
+                shadow-sm
+            {% else %}
+                text-slate-500 dark:text-slate-400
+                hover:text-slate-900 dark:hover:text-white
+                hover:bg-slate-100 dark:hover:bg-white/[0.03]
+            {% endif %}">
+            <span class="iconify" data-icon="lucide:layout-grid" data-width="18"></span>
+            {% trans "Umumiy ko'rinish" %}
+        </a>
 
-<!-- KIRIMLAR -->
-<a href="{% url 'income-list' %}"
-   class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
-   {% if request.resolver_match.url_name in 'income-list income-create income-update' %}
-       bg-blue-50 dark:bg-blue-500/10
-       text-blue-700 dark:text-blue-400
-       border-l-4 border-blue-600
-       shadow-sm
-   {% else %}
-       text-slate-500 dark:text-slate-400
-       hover:text-slate-900 dark:hover:text-white
-       hover:bg-slate-100 dark:hover:bg-white/[0.03]
-   {% endif %}">
-    <span class="iconify" data-icon="lucide:arrow-down-left" data-width="18"></span>
-    Kirimlar
-</a>
+        <!-- KIRIMLAR -->
+        <a href="{% url 'income-list' %}" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
+            {% if request.resolver_match.url_name in 'income-list income-create income-update' %}
+                bg-blue-50 dark:bg-blue-500/10
+                text-blue-700 dark:text-blue-400
+                border-l-4 border-blue-600
+                shadow-sm
+            {% else %}
+                text-slate-500 dark:text-slate-400
+                hover:text-slate-900 dark:hover:text-white
+                hover:bg-slate-100 dark:hover:bg-white/[0.03]
+            {% endif %}">
+            <span class="iconify" data-icon="lucide:arrow-down-left" data-width="18"></span>
+            {% trans "Kirimlar" %}
+        </a>
 
-<!-- CHIQIMLAR -->
-<a href="{% url 'expense-list' %}"
-   class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
-   {% if request.resolver_match.url_name in 'expense-list expense-create expense-update' %}
-       bg-blue-50 dark:bg-blue-500/10
-       text-blue-700 dark:text-blue-400
-       border-l-4 border-blue-600
-       shadow-sm
-   {% else %}
-       text-slate-500 dark:text-slate-400
-       hover:text-slate-900 dark:hover:text-white
-       hover:bg-slate-100 dark:hover:bg-white/[0.03]
-   {% endif %}">
-    <span class="iconify" data-icon="lucide:arrow-up-right" data-width="18"></span>
-    Chiqimlar
-</a>
+        <!-- CHIQIMLAR -->
+        <a href="{% url 'expense-list' %}" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
+            {% if request.resolver_match.url_name in 'expense-list expense-create expense-update' %}
+                bg-blue-50 dark:bg-blue-500/10
+                text-blue-700 dark:text-blue-400
+                border-l-4 border-blue-600
+                shadow-sm
+            {% else %}
+                text-slate-500 dark:text-slate-400
+                hover:text-slate-900 dark:hover:text-white
+                hover:bg-slate-100 dark:hover:bg-white/[0.03]
+            {% endif %}">
+            <span class="iconify" data-icon="lucide:arrow-up-right" data-width="18"></span>
+            {% trans "Chiqimlar" %}
+        </a>
 
-<!-- HISOBLAR -->
-<a href="{% url 'account-list' %}"
-   class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
-   {% if request.resolver_match.url_name in 'account-list account-create account-update' %}
-       bg-blue-50 dark:bg-blue-500/10
-       text-blue-700 dark:text-blue-400
-       border-l-4 border-blue-600
-       shadow-sm
-   {% else %}
-       text-slate-500 dark:text-slate-400
-       hover:text-slate-900 dark:hover:text-white
-       hover:bg-slate-100 dark:hover:bg-white/[0.03]
-   {% endif %}">
-    <span class="iconify" data-icon="lucide:wallet" data-width="18"></span>
-    Hisoblar
-</a>
+        <!-- HISOBLAR -->
+        <a href="{% url 'account-list' %}" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
+            {% if request.resolver_match.url_name in 'account-list account-create account-update' %}
+                bg-blue-50 dark:bg-blue-500/10
+                text-blue-700 dark:text-blue-400
+                border-l-4 border-blue-600
+                shadow-sm
+            {% else %}
+                text-slate-500 dark:text-slate-400
+                hover:text-slate-900 dark:hover:text-white
+                hover:bg-slate-100 dark:hover:bg-white/[0.03]
+            {% endif %}">
+            <span class="iconify" data-icon="lucide:wallet" data-width="18"></span>
+            {% trans "Hisoblar" %}
+        </a>
 
-<!-- HISOBOTLAR -->
-<a href="{% url 'report-list' %}"
-   class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
-   {% if request.resolver_match.url_name in 'report-list report-detail' %}
-       bg-blue-50 dark:bg-blue-500/10
-       text-blue-700 dark:text-blue-400
-       border-l-4 border-blue-600
-       shadow-sm
-   {% else %}
-       text-slate-500 dark:text-slate-400
-       hover:text-slate-900 dark:hover:text-white
-       hover:bg-slate-100 dark:hover:bg-white/[0.03]
-   {% endif %}">
-    <span class="iconify" data-icon="lucide:pie-chart" data-width="18"></span>
-    Hisobotlar
-</a>
+        <!-- HISOBOTLAR -->
+        <a href="{% url 'report-list' %}" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
+            {% if request.resolver_match.url_name in 'report-list report-detail' %}
+                bg-blue-50 dark:bg-blue-500/10
+                text-blue-700 dark:text-blue-400
+                border-l-4 border-blue-600
+                shadow-sm
+            {% else %}
+                text-slate-500 dark:text-slate-400
+                hover:text-slate-900 dark:hover:text-white
+                hover:bg-slate-100 dark:hover:bg-white/[0.03]
+            {% endif %}">
+            <span class="iconify" data-icon="lucide:pie-chart" data-width="18"></span>
+            {% trans "Hisobotlar" %}
+        </a>
+
+
+        <!-- LANGUAGE SWITCHER -->
+        <div class="mt-4 pt-4 border-t border-slate-200 dark:border-white/[0.05] space-y-1 px-3">
+
+            <form action="{% url 'set_language' %}" method="post" id="languageForm">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+
+                {% for language in languages %}
+                <button type="submit"
+                        name="language"
+                        value="{{ language.code }}"
+                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
+                {% if language.code == LANGUAGE_CODE %}
+                    bg-blue-50 dark:bg-blue-500/10
+                    text-blue-700 dark:text-blue-400
+                    border-l-4 border-blue-600
+                    shadow-sm
+                {% else %}
+                    text-slate-500 dark:text-slate-400
+                    hover:text-slate-900 dark:hover:text-white
+                    hover:bg-slate-100 dark:hover:bg-white/[0.03]
+                {% endif %}">
+
+                    <!-- FLAG -->
+                    <span class="text-lg">
+                {% if language.code == 'uz' %}🇺🇿{% elif language.code == 'ru' %}🇷🇺{% elif language.code == 'en' %}🇬🇧{% endif %}
+            </span>
+
+                    <!-- LANGUAGE NAME -->
+                    <span>{{ language.name_local }}</span>
+                </button>
+                {% endfor %}
+            </form>
+
+        </div>
 
     </nav>
 
-<div class="pt-4 mt-4 border-t border-slate-200 dark:border-white/[0.05]">
-    <a href="{% url 'settings' %}"
-       class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
+    <!-- SOZLAMALAR -->
+    <div class="p-4 border-t border-slate-200 dark:border-white/[0.05]">
+        <a href="{% url 'settings' %}"
+           class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
        {% if request.resolver_match.url_name in 'settings settings-profile settings-security' %}
            bg-blue-50 dark:bg-blue-500/10
            text-blue-700 dark:text-blue-400
@@ -109,38 +149,34 @@
            hover:text-slate-900 dark:hover:text-white
            hover:bg-slate-100 dark:hover:bg-white/[0.03]
        {% endif %}">
-        <span class="iconify" data-icon="lucide:settings" data-width="18"></span>
-        Sozlamalar
-    </a>
-</div>
+            <span class="iconify" data-icon="lucide:settings" data-width="18"></span>
 
+            {% trans "Sozlamalar" %}
+        </a>
+    </div>
+    <!-- USER INFO -->
     <div class="p-4 border-t border-slate-200 dark:border-white/[0.05]">
         <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.03] cursor-pointer transition-colors">
-
-            <!-- AVATAR -->
-            <div class="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-tr from-blue-500 to-indigo-500
-                    flex items-center justify-center text-xs font-bold text-white">
-
+            <div class="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-xs font-bold text-white">
                 {% if request.user.userprofile.avatar %}
-                <img src="{{ request.user.userprofile.avatar.url }}"
-                     alt="Avatar"
-                     class="w-full h-full object-cover">
+                <img src="{{ request.user.userprofile.avatar.url }}" alt="Avatar" class="w-full h-full object-cover">
                 {% else %}
-                {{ request.user.first_name|default:"U"|first }}{{ request.user.last_name|default:""|first }}
+                {{ request.user.first_name }} {{ request.user.last_name }}
                 {% endif %}
             </div>
-
-            <!-- USER INFO -->
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
-                    {{ user.first_name }} {{ user.last_name }}
+                    {{ request.user.first_name }} {{ request.user.last_name }}
                 </p>
-                <p class="text-xs text-slate-500 truncate">
-                    {{ user.username }}
-                </p>
+                <p class="text-xs text-slate-500 truncate">{{ request.user.username }}</p>
             </div>
-
         </div>
     </div>
 
 </aside>
+<script>
+    document.getElementById('languageSelect').addEventListener('change', function () {
+        document.getElementById('languageForm').submit();
+    });
+</script>
+

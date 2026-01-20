@@ -43,8 +43,8 @@ from django.db.models import Sum
 # Kelajakda  real API bilan almashtirishim  mumkin.
 CURRENCY_RATES = {
     'UZS': 1,
-    'USD': 12500,
-    'EUR': 13500,
+    'USD': 12500, # 1 USD = 12 500 UZS
+    'EUR': 13500, # 1 EUR = 13 500 UZS
 }
 
 # USD -> 100 * 12500 = 1,250,000
@@ -61,6 +61,7 @@ from django.shortcuts import render
 import json
 
 
+
 @login_required
 def dashboard_view(request):
     user = request.user
@@ -75,14 +76,14 @@ def dashboard_view(request):
     # ======================
     # 2. OYLIGI KIRIM-CHIQIMLAR (oy boshidan hozirgacha)
     # ======================
-    today = now().date()
-    start_month = today.replace(day=1)
+    today = now()
+    start_month = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
-    incomes_this_month = incomes.filter(date__gte=start_month)
-    expenses_this_month = expenses.filter(date__gte=start_month)
+    incomes_this_month = incomes.filter(created_at__gte=start_month)
+    expenses_this_month = expenses.filter(created_at__gte=start_month)
 
     # ======================
-    # 3. JAMI KIRIM, CHIQIM VA UMUMIY BALANS
+    # 3. JAMI KIRIM, CHIQIM VA UMUMIY BALANS (UZS ga konvertatsiya)
     # ======================
     total_income_uzs = sum(
         float(inc.amount) * CURRENCY_RATES.get(inc.currency.upper(), 1)
@@ -107,17 +108,20 @@ def dashboard_view(request):
     chart_data = defaultdict(lambda: {'income': 0, 'expense': 0})
 
     for inc in incomes_this_month:
-        key = inc.date.strftime('%d %b')
+        key = inc.created_at.strftime('%d %b')
         chart_data[key]['income'] += float(inc.amount) * CURRENCY_RATES.get(inc.currency.upper(), 1)
 
     for exp in expenses_this_month:
-        key = exp.date.strftime('%d %b')
+        key = exp.created_at.strftime('%d %b')
         chart_data[key]['expense'] += float(exp.amount) * CURRENCY_RATES.get(exp.currency.upper(), 1)
 
     labels = list(chart_data.keys())
     income_values = [chart_data[label]['income'] for label in labels]
     expense_values = [chart_data[label]['expense'] for label in labels]
 
+    # ======================
+    # 6. Context va render
+    # ======================
     context = {
         'accounts': accounts,
         'incomes': incomes_this_month,
@@ -132,92 +136,147 @@ def dashboard_view(request):
 
     return render(request, 'dashboard.html', context)
 
+
 from django.db.models import Sum, Q
 from datetime import datetime, timedelta
+
+from django.db.models.functions import TruncDate, TruncHour, TruncMonth
+from django.utils import timezone
+
 
 @login_required
 def financial_analysis_api(request):
     """Moliyaviy tahlil ma'lumotlari (JSON)"""
     period = request.GET.get('period', 'month')
     user = request.user
-    today = datetime.now().date()
+    now = timezone.now()
 
     # Sana oralig'ini aniqlash
     if period == 'day':
-        start_date = today
-        end_date = today
+        start_date = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_date = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+        trunc_function = TruncHour('created_at')
+        date_format = '%H:00'
     elif period == 'week':
-        start_date = today - timedelta(days=today.weekday())
-        end_date = start_date + timedelta(days=6)
+        # Haftaning boshini topish (Dushanba)
+        start_date = (now - timedelta(days=now.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
+        end_date = start_date + timedelta(days=6, hours=23, minutes=59, seconds=59)
+        trunc_function = TruncDate('created_at')
+        date_format = '%a'  # Mon, Tue, Wed...
     elif period == 'month':
-        start_date = today.replace(day=1)
-        if today.month == 12:
-            end_date = today.replace(day=31)
+        start_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        # Keyingi oyning 1-kunini topib, 1 kun ayiramiz
+        if now.month == 12:
+            end_date = now.replace(month=12, day=31, hour=23, minute=59, second=59)
         else:
-            next_month = today.replace(month=today.month + 1, day=1)
-            end_date = next_month - timedelta(days=1)
+            next_month = now.replace(month=now.month + 1, day=1, hour=0, minute=0, second=0)
+            end_date = next_month - timedelta(seconds=1)
+        trunc_function = TruncDate('created_at')
+        date_format = '%d'  # 01, 02, 03...
     elif period == 'year':
-        start_date = today.replace(month=1, day=1)
-        end_date = today.replace(month=12, day=31)
+        start_date = now.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        end_date = now.replace(month=12, day=31, hour=23, minute=59, second=59)
+        trunc_function = TruncMonth('created_at')
+        date_format = '%b'  # Jan, Feb, Mar...
     else:
-        start_date = today.replace(day=1)
-        if today.month == 12:
-            end_date = today.replace(day=31)
+        # Default: month
+        start_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        if now.month == 12:
+            end_date = now.replace(month=12, day=31, hour=23, minute=59, second=59)
         else:
-            next_month = today.replace(month=today.month + 1, day=1)
-            end_date = next_month - timedelta(days=1)
+            next_month = now.replace(month=now.month + 1, day=1, hour=0, minute=0, second=0)
+            end_date = next_month - timedelta(seconds=1)
+        trunc_function = TruncDate('created_at')
+        date_format = '%d'
 
     # Kirimlarni olish
     incomes = Income.objects.filter(
         user=user,
-        date__gte=start_date,
-        date__lte=end_date
-    ).values('date').annotate(total=Sum('amount')).order_by('date')
+        created_at__gte=start_date,
+        created_at__lte=end_date
+    ).annotate(
+        period=trunc_function
+    ).values('period').annotate(
+        total=Sum('amount')
+    ).order_by('period')
 
     # Chiqimlarni olish
     expenses = Expense.objects.filter(
         user=user,
-        date__gte=start_date,
-        date__lte=end_date
-    ).values('date').annotate(total=Sum('amount')).order_by('date')
+        created_at__gte=start_date,
+        created_at__lte=end_date
+    ).annotate(
+        period=trunc_function
+    ).values('period').annotate(
+        total=Sum('amount')
+    ).order_by('period')
 
-    # Ma'lumotlarni formatlash
-    income_dict = {str(item['date']): float(item['total']) for item in incomes}
-    expense_dict = {str(item['date']): float(item['total']) for item in expenses}
+    # Ma'lumotlarni lug'atga joylash
+    income_dict = {}
+    for item in incomes:
+        # period ni string formatiga o'tkazamiz (kalit sifatida ishlatish uchun)
+        key = item['period'].strftime('%Y-%m-%d %H:%M:%S')
+        income_dict[key] = float(item['total'])
 
-    # Barcha sanalarni to'plash
-    all_dates = set(income_dict.keys()) | set(expense_dict.keys())
-    all_dates = sorted(all_dates)
+    expense_dict = {}
+    for item in expenses:
+        key = item['period'].strftime('%Y-%m-%d %H:%M:%S')
+        expense_dict[key] = float(item['total'])
 
-    # Label'larni formatlash
+    # Barcha vaqt oralig'ini yaratish
     labels = []
     income_data = []
     expense_data = []
 
-    for date_str in all_dates:
-        date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
+    if period == 'day':
+        # 24 soat
+        for i in range(24):
+            period_time = start_date + timedelta(hours=i)
+            key = period_time.strftime('%Y-%m-%d %H:%M:%S')
 
-        if period == 'day':
-            labels.append(date_obj.strftime('%H:00'))
-        elif period == 'week':
-            labels.append(date_obj.strftime('%a'))  # Dush, Sesh, ...
-        elif period == 'month':
-            labels.append(date_obj.strftime('%d'))  # 1, 2, 3, ...
-        elif period == 'year':
-            labels.append(date_obj.strftime('%b'))  # Yan, Fev, ...
+            labels.append(period_time.strftime(date_format))
+            income_data.append(income_dict.get(key, 0))
+            expense_data.append(expense_dict.get(key, 0))
 
-        income_data.append(income_dict.get(date_str, 0))
-        expense_data.append(expense_dict.get(date_str, 0))
+    elif period == 'week':
+        # 7 kun
+        for i in range(7):
+            period_time = start_date + timedelta(days=i)
+            # TruncDate 00:00:00 vaqtni qaytaradi
+            key = period_time.replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d %H:%M:%S')
 
-    # JSON formatda qaytarish
+            labels.append(period_time.strftime(date_format))
+            income_data.append(income_dict.get(key, 0))
+            expense_data.append(expense_dict.get(key, 0))
+
+    elif period == 'month':
+        # Oyning barcha kunlari
+        current_date = start_date
+        while current_date <= end_date:
+            key = current_date.strftime('%Y-%m-%d %H:%M:%S')
+
+            labels.append(current_date.strftime(date_format))
+            income_data.append(income_dict.get(key, 0))
+            expense_data.append(expense_dict.get(key, 0))
+
+            current_date += timedelta(days=1)
+            current_date = current_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+    elif period == 'year':
+        # 12 oy
+        for month in range(1, 13):
+            period_time = start_date.replace(month=month, day=1, hour=0, minute=0, second=0, microsecond=0)
+            key = period_time.strftime('%Y-%m-%d %H:%M:%S')
+
+            labels.append(period_time.strftime(date_format))
+            income_data.append(income_dict.get(key, 0))
+            expense_data.append(expense_dict.get(key, 0))
+
     return JsonResponse({
         'labels': labels,
         'income': income_data,
         'expense': expense_data,
     })
-
-
-
 def logout_view(request):
     logout(request)
     return redirect("home")
@@ -269,11 +328,31 @@ def income_list(request):
         "incomes": incomes
     })
 
+def convert_currency(amount, from_currency, to_currency):
+    """
+    amount: Decimal
+    from_currency: 'USD'
+    to_currency: 'UZS'
+    """
+    if from_currency == to_currency:
+        return amount
+
+    amount_in_uzs = amount * CURRENCY_RATES[from_currency]
+    return amount_in_uzs / CURRENCY_RATES[to_currency]
+
+
+# CURRENCY_RATES = {
+#     'UZS': 1,
+#     'USD': 12500, # 1 USD = 12 500 UZS
+#     'EUR': 13500, # 1 EUR = 13 500 UZS
+# }
+# Kirim qo'shishda uzs hisobga usd euro qoshsa boladi va hisoblashda
+# CURRENCY_RATES shu orqali default ishlashdi  kelajakda reja qilib qoydim real api bilan ishlashni
+# bu loyihani takomilashitirshni
 
 @login_required
 def add_income(request):
     if request.method == "POST":
-        #  USERNI FORMGА UZATAMIZ
         form = IncomeForm(request.POST, user=request.user)
 
         if form.is_valid():
@@ -282,33 +361,43 @@ def add_income(request):
                 income.user = request.user
                 income.save()
 
-                # 👇 BALANSNI OSHIRAMIZ
                 if income.account:
                     account = income.account
 
-                    if account.currency != income.currency:
-                        form.add_error('currency', 'Hisob valyutasi mos emas')
-                        raise ValueError("Currency mismatch")
+                    #  VALYUTA KONVERTATSIYA
+                    converted_amount = convert_currency(
+                        income.amount,
+                        income.currency,
+                        account.currency
+                    )
 
-                    account.balance += income.amount
+                    account.balance += converted_amount
                     account.save()
 
             return redirect("income-list")
     else:
-        #  BU YERDA HAM USER SHART
         form = IncomeForm(user=request.user)
 
     return render(request, "incomes/create.html", {
         "form": form
     })
 
-
 @login_required
 def expense_list(request):
-    expenses = Expense.objects.filter(user=request.user)
+    # Foydalanuvchining barcha chiqimlarini oxirgi qo‘shilgan bo‘yicha olish
+    expenses = Expense.objects.filter(user=request.user).order_by('-created_at')
 
-    # jami chiqimlar summa
-    total_expense = expenses.aggregate(total=Sum('amount'))['total'] or 0
+    # Jami chiqimlar (UZS, USD, EUR aralash bo'lsa, valyutani o'zgartirish kerak)
+    # Agar siz CURRENCY_RATES bilan UZS ga hisoblamoqchi bo'lsangiz
+    CURRENCY_RATES = {
+        'UZS': 1,
+        'USD': 12500,
+        'EUR': 13500,
+    }
+    total_expense = sum(
+        float(exp.amount) * CURRENCY_RATES.get(exp.currency.upper(), 1)
+        for exp in expenses
+    )
     total_expense_formatted = f"{total_expense:,.0f}"  # 1,000,000 tarzida
 
     return render(request, "expenses/list.html", {
@@ -379,14 +468,7 @@ def add_account(request):
 
 
 
-# # REPORTS (HISOBOTLAR)
-# @login_required
-# def reports(request):
-#     expenses = Expense.objects.filter(user=request.user)
-#
-#     return render(request, "reports/index.html", {
-#         "expenses": expenses,
-#     })
+
 
 
 
@@ -394,34 +476,42 @@ def add_account(request):
 from django.shortcuts import render
 from django.db.models import Sum
 from django.db.models.functions import ExtractMonth
-from datetime import date, timedelta
+from datetime import date
 import calendar
 import json
 
+
+# Hisobotlar
+@login_required
 def reports_view(request):
     today = date.today()
     current_month = today.month
 
-    #  Kategoriya bo‘yicha chiqimlar
+    # ======================
+    # 1. Kategoriya bo‘yicha chiqimlar (bu oy)
+    # ======================
     category_data = (
         Expense.objects
-        .filter(date__month=current_month)
+        .filter(created_at__month=current_month)  # date__month o'rniga created_at__month
         .values('category__name')
         .annotate(total=Sum('amount'))
     )
-    categories = [c['category__name'] for c in category_data]
+
+    categories = [c['category__name'] if c['category__name'] else "Noma’lum" for c in category_data]
     category_totals = [float(c['total']) for c in category_data]
 
-    #  Oxirgi 6 oy chiqimlari
+    # ======================
+    # 2. Oxirgi 6 oy chiqimlari
+    # ======================
     monthly_data = (
         Expense.objects
-        .annotate(month=ExtractMonth('date'))
+        .annotate(month=ExtractMonth('created_at'))  # date -> created_at
         .values('month')
         .annotate(total=Sum('amount'))
         .order_by('month')
     )
 
-    # Oxirgi 6 oy ro‘yxati
+    # Oxirgi 6 oy ro‘yxati va default 0 bilan
     months = []
     month_totals = []
     for i in range(5, -1, -1):
@@ -429,9 +519,11 @@ def reports_view(request):
         months.append(calendar.month_abbr[m])
         month_totals.append(0)
 
+    # Monthly data ni moslashtiramiz
     for m_data in monthly_data:
-        idx = int(m_data['month']) - 1
-        month_totals[idx] = float(m_data['total'])
+        idx = (int(m_data['month']) - today.month + 12) % 12
+        if idx < 6:  # faqat oxirgi 6 oy ichida bo‘lsa
+            month_totals[idx] = float(m_data['total'])
 
     context = {
         'categories': json.dumps(categories),
@@ -448,7 +540,7 @@ def reports_view(request):
 def settings_view(request):
     user = request.user
 
-    # 🔥 ENG MUHIM QATOR
+    #  ENG MUHIM QATOR
     profile, created = UserProfile.objects.get_or_create(user=user)
 
     if request.method == 'POST':

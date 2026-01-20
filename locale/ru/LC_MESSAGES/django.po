@@ -1,0 +1,469 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-21 03:06+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: kirim/settings.py:114
+msgid "Uzbek"
+msgstr ""
+
+#: kirim/settings.py:115
+msgid "English"
+msgstr ""
+
+#: kirim/settings.py:116
+msgid "Russian"
+msgstr ""
+
+#: kirimapp/forms.py:24
+#, fuzzy
+#| msgid "Masalan: Asosiy karta"
+msgid "Masalan: Maosh, Freelance"
+msgstr "Например: Основная карта"
+
+#: kirimapp/forms.py:29
+#, fuzzy
+#| msgid "Izoh"
+msgid "Izoh..."
+msgstr "Комментарий"
+
+#: kirimapp/forms.py:100
+#, python-brace-format
+msgid ""
+"Hisob valyutasi ({account_currency}) bilan chiqim valyutasi ({currency}) mos "
+"emas."
+msgstr ""
+"Валюта счета ({account_currency}) не совпадает с валютой расхода "
+"({currency})."
+
+#: kirimapp/forms.py:109
+#, python-brace-format
+msgid "Hisobda yetarli mablag‘ yo‘q. Mavjud: {balance} {currency}"
+msgstr "На счете недостаточно средств. Доступно: {balance} {currency}"
+
+#: kirimapp/forms.py:140
+msgid "Masalan: Asosiy karta"
+msgstr "Например: Основная карта"
+
+#: kirimapp/forms.py:167
+msgid "Masalan: Kapitalbank"
+msgstr "Например: Kapitalbank"
+
+#: kirimapp/forms.py:205
+#, fuzzy
+#| msgid "Bank nomi"
+msgid "Bank nomini kiriting"
+msgstr "Введите название банка"
+
+#: kirimapp/forms.py:208
+msgid "Kartaning oxirgi 4 raqamini kiriting"
+msgstr "Введите последние 4 цифры карты"
+
+#: kirimapp/forms.py:211
+msgid "Aniq 4 ta raqam bo‘lishi kerak"
+msgstr "Должно быть ровно 4 цифры"
+
+#: kirimapp/forms.py:257
+msgid "Izoh qoldiring..."
+msgstr "Оставьте комментарий..."
+
+#: kirimapp/templates/accounts/create.html:4
+#: kirimapp/templates/accounts/list.html:4
+#: kirimapp/templates/accounts/list.html:15
+#: kirimapp/templates/partials/sidebar.html:77
+msgid "Hisoblar"
+msgstr "Счета"
+
+#: kirimapp/templates/accounts/create.html:15
+msgid "Yangi Hisob Qo'shish"
+msgstr "Добавить новый счёт"
+
+#: kirimapp/templates/accounts/create.html:58
+#, fuzzy
+#| msgid "Yangi Hisob Qo'shish"
+msgid " Yangi Hisob Ochish"
+msgstr "Добавить новый счёт"
+
+#: kirimapp/templates/accounts/create.html:61
+msgid "Karta yoki naqd pul hamyonini qo‘shing."
+msgstr "Добавьте карту или наличный кошелёк."
+
+#: kirimapp/templates/accounts/create.html:78
+msgid "Hisob turi"
+msgstr "Тип счёта"
+
+#: kirimapp/templates/accounts/create.html:87
+msgid "Hisob nomi"
+msgstr "Название счёта"
+
+#: kirimapp/templates/accounts/create.html:97
+msgid "Boshlang‘ich balans"
+msgstr "Начальный баланс"
+
+#: kirimapp/templates/accounts/create.html:105
+msgid "Valyuta"
+msgstr "Валюта"
+
+#: kirimapp/templates/accounts/create.html:118
+msgid "Bank nomi"
+msgstr "Название банка"
+
+#: kirimapp/templates/accounts/create.html:127
+msgid "Oxirgi 4 raqam"
+msgstr "Последние 4 цифры"
+
+#: kirimapp/templates/accounts/create.html:135
+msgid "Amal qilish muddati"
+msgstr "Срок действия"
+
+#: kirimapp/templates/accounts/create.html:155
+msgid "Bekor qilish"
+msgstr "Отмена"
+
+#: kirimapp/templates/accounts/create.html:166
+msgid "Yaratish"
+msgstr "Создать"
+
+#: kirimapp/templates/accounts/list.html:37
+#: kirimapp/templates/dashboard.html:41
+#: kirimapp/templates/expenses/list.html:36
+#: kirimapp/templates/incomes/list.html:35
+#: kirimapp/templates/reports/index.html:35
+#: kirimapp/templates/settings/index.html:40
+msgid "Chiqish"
+msgstr "Выход"
+
+#: kirimapp/templates/accounts/list.html:56
+msgid "Mening Hisoblarim"
+msgstr "Мои счета"
+
+#: kirimapp/templates/accounts/list.html:57
+msgid "Kartalar va hamyonlar"
+msgstr "Карты и кошельки"
+
+#: kirimapp/templates/accounts/list.html:62
+msgid "Yangi Hisob"
+msgstr "Новый счёт"
+
+#: kirimapp/templates/accounts/list.html:111
+msgid "Hozircha hisoblar yo‘q"
+msgstr "Счета пока отсутствуют"
+
+#: kirimapp/templates/dashboard.html:6
+msgid "Dashboard"
+msgstr "Панель управления"
+
+#: kirimapp/templates/dashboard.html:21
+#: kirimapp/templates/partials/sidebar.html:29
+msgid "Umumiy ko'rinish"
+msgstr "Общий обзор"
+
+#: kirimapp/templates/dashboard.html:65
+#, fuzzy
+#| msgid "Yangi Kirim"
+msgid "Jami Kirim"
+msgstr "Новый доход"
+
+#: kirimapp/templates/dashboard.html:83
+#, fuzzy
+#| msgid "Yangi Chiqim"
+msgid "Jami Chiqim"
+msgstr "Новый расход"
+
+#: kirimapp/templates/dashboard.html:102
+#, fuzzy
+#| msgid "Umumiy ko'rinish"
+msgid "Umumiy Balans"
+msgstr "Общий обзор"
+
+#: kirimapp/templates/dashboard.html:112
+#, python-format
+msgid "(Kirim: %(income)s UZS, Chiqim: %(expense)s UZS)"
+msgstr "(Доход: %(income)s UZS, Расход: %(expense)s UZS)"
+
+
+#: kirimapp/templates/dashboard.html:128
+msgid "Moliyaviy tahlil"
+msgstr "Финансовый анализ"
+
+#: kirimapp/templates/dashboard.html:131
+msgid "Bugun"
+msgstr "Сегодня"
+
+#: kirimapp/templates/dashboard.html:132
+msgid "Bu hafta"
+msgstr "На этой неделе"
+
+#: kirimapp/templates/dashboard.html:133
+msgid "Bu oy"
+msgstr "В этом месяце"
+
+#: kirimapp/templates/dashboard.html:134
+msgid "Bu yil"
+msgstr "В этом году"
+
+#: kirimapp/templates/dashboard.html:151
+msgid "Hisoblarim"
+msgstr "Мои счета"
+
+#: kirimapp/templates/dashboard.html:155
+msgid "Barchasi"
+msgstr "Все"
+
+#: kirimapp/templates/dashboard.html:198
+msgid "Hozircha hisob yo'q"
+msgstr "Счётов пока нет"
+
+#: kirimapp/templates/dashboard.html:214
+msgid "Yangi hisob qo'shish"
+msgstr "Добавить новый счёт"
+
+#: kirimapp/templates/expenses/create.html:4
+#: kirimapp/templates/incomes/create.html:4
+msgid "Kirim Qo'shish"
+msgstr "Добавить доход"
+
+#: kirimapp/templates/expenses/create.html:14
+#: kirimapp/templates/expenses/list.html:16
+msgid "Chiqimlar ro'yxati"
+msgstr "Список расходов"
+
+#: kirimapp/templates/expenses/create.html:51
+msgid "Yangi Chiqim Qo'shish"
+msgstr "Добавить новый расход"
+
+#: kirimapp/templates/expenses/create.html:52
+msgid "Xarajatlarni ro'yxatga olish."
+msgstr "Регистрация расходов."
+
+#: kirimapp/templates/expenses/create.html:75
+#: kirimapp/templates/expenses/list.html:78
+#: kirimapp/templates/incomes/list.html:69
+msgid "Summa"
+msgstr "Сумма"
+
+#: kirimapp/templates/expenses/create.html:90
+#: kirimapp/templates/expenses/list.html:73
+msgid "Kategoriya"
+msgstr "Категория"
+
+#: kirimapp/templates/expenses/create.html:98
+msgid "Qaysi hisobdan?"
+msgstr "С какого счёта?"
+
+#: kirimapp/templates/expenses/create.html:108
+msgid "Qabul qiluvchi"
+msgstr "Получатель"
+
+#: kirimapp/templates/expenses/create.html:118
+#: kirimapp/templates/incomes/create.html:198
+#: kirimapp/templates/incomes/list.html:68
+msgid "Izoh"
+msgstr "Комментарий"
+
+#: kirimapp/templates/expenses/create.html:129
+msgid " Bekor qilish"
+msgstr " Отмена"
+
+#: kirimapp/templates/expenses/create.html:133
+#: kirimapp/templates/incomes/create.html:212
+msgid "Saqlash"
+msgstr "Сохранить"
+
+#: kirimapp/templates/expenses/list.html:5
+#: kirimapp/templates/partials/sidebar.html:61
+#: kirimapp/templates/reports/index.html:108
+msgid "Chiqimlar"
+msgstr "Расходы"
+
+#: kirimapp/templates/expenses/list.html:55
+msgid "Chiqimlar Tarixi"
+msgstr "История расходов"
+
+#: kirimapp/templates/expenses/list.html:56
+msgid "Barcha xarajatlar ro'yxati."
+msgstr "Список всех расходов."
+
+#: kirimapp/templates/expenses/list.html:61
+msgid "Yangi Chiqim"
+msgstr "Новый расход"
+
+#: kirimapp/templates/expenses/list.html:71
+#: kirimapp/templates/incomes/list.html:66
+msgid "Sana"
+msgstr "Дата"
+
+#: kirimapp/templates/expenses/list.html:75
+msgid "Hisob"
+msgstr "Счёт"
+
+#: kirimapp/templates/expenses/list.html:98
+msgid "Noma’lum"
+msgstr "Неизвестно"
+
+#: kirimapp/templates/expenses/list.html:121
+msgid "Jami:"
+msgstr "Итого:"
+
+#: kirimapp/templates/incomes/create.html:104
+#: kirimapp/templates/incomes/list.html:14
+msgid "Kirimlar ro'yxati"
+msgstr "Список доходов"
+
+#: kirimapp/templates/incomes/create.html:117
+msgid "Asosiy valyuta:"
+msgstr "Основная валюта:"
+
+#: kirimapp/templates/incomes/create.html:119
+msgid "(So'm)"
+msgstr "(Сум)"
+
+#: kirimapp/templates/incomes/create.html:150
+msgid "Yangi Kirim Qo‘shish"
+msgstr "Добавить новый доход"
+
+#: kirimapp/templates/incomes/create.html:151
+msgid "Hisobingizga pul mablag‘ini kirim qilish"
+msgstr "Зачисление денежных средств на счёт"
+
+#: kirimapp/templates/incomes/create.html:162
+msgid "Summa va valyuta"
+msgstr "Сумма и валюта"
+
+#: kirimapp/templates/incomes/create.html:177
+msgid "Kirim turi"
+msgstr "Тип дохода"
+
+#: kirimapp/templates/incomes/create.html:185
+msgid "Qaysi hisobga?"
+msgstr "На какой счёт?"
+
+#: kirimapp/templates/incomes/list.html:4
+#: kirimapp/templates/partials/sidebar.html:45
+msgid "Kirimlar"
+msgstr "Доходы"
+
+#: kirimapp/templates/incomes/list.html:51
+msgid "Kirimlar Tarixi"
+msgstr "История доходов"
+
+#: kirimapp/templates/incomes/list.html:52
+msgid "Barcha daromad manbalari va o'tkazmalar."
+msgstr "Все источники доходов и переводы."
+
+#: kirimapp/templates/incomes/list.html:56
+msgid "Yangi Kirim"
+msgstr "Новый доход"
+
+#: kirimapp/templates/incomes/list.html:67
+msgid "Manba"
+msgstr "Источник"
+
+#: kirimapp/templates/incomes/list.html:96
+msgid "Kirimlar mavjud emas"
+msgstr "Доходы отсутствуют"
+
+#: kirimapp/templates/partials/sidebar.html:10
+msgid "MoliyaviyNazorat"
+msgstr "Финансовый контроль"
+
+#: kirimapp/templates/partials/sidebar.html:93
+#: kirimapp/templates/reports/index.html:4
+#: kirimapp/templates/reports/index.html:15
+msgid "Hisobotlar"
+msgstr "Отчёты"
+
+#: kirimapp/templates/partials/sidebar.html:154
+#: kirimapp/templates/settings/index.html:4
+#: kirimapp/templates/settings/index.html:19
+msgid "Sozlamalar"
+msgstr "Настройки"
+
+#: kirimapp/templates/reports/index.html:51
+msgid "Hisobot va Analitika"
+msgstr "Отчёты и аналитика"
+
+#: kirimapp/templates/reports/index.html:52
+msgid "Oylik xarajatlar tahlili."
+msgstr "Анализ ежемесячных расходов."
+
+#: kirimapp/templates/reports/index.html:58
+msgid "Kategoriyalar bo'yicha "
+msgstr "По категориям"
+
+#: kirimapp/templates/reports/index.html:66
+msgid "Tahlil"
+msgstr "Анализ"
+
+#: kirimapp/templates/settings/index.html:55
+msgid " Sozlamalar"
+msgstr " Настройки"
+
+#: kirimapp/templates/settings/index.html:58
+msgid "Profil  parametrlarini boshqarish."
+msgstr "Управление параметрами профиля."
+
+#: kirimapp/templates/settings/index.html:71
+msgid " Profil Ma'lumotlari"
+msgstr " Данные профиля"
+
+#: kirimapp/templates/settings/index.html:91
+msgid " Rasm yuklash"
+msgstr " Загрузка изображения"
+
+#: kirimapp/templates/settings/index.html:101
+msgid "Ism"
+msgstr "Имя"
+
+#: kirimapp/templates/settings/index.html:108
+msgid "Familiya"
+msgstr "Фамилия"
+
+#: kirimapp/templates/settings/index.html:120
+msgid "O'zgarishlarni saqlash"
+msgstr "Сохранить изменения"
+
+#: templates/base.html:8
+msgid "Bosh sahifa"
+msgstr "Главная страница"
+
+#~ msgid ""
+#~ "(Kirim: {{ total_income_uzs }} UZS, Chiqim: {{ total_expense_uzs }} UZS)"
+#~ msgstr ""
+#~ "(Доход: {{ total_income_uzs }} UZS, Расход: {{ total_expense_uzs }} UZS)"
+
+#, fuzzy
+#~| msgid "Kirimlar"
+#~ msgid "Kirim"
+#~ msgstr "Доходы"
+
+#, fuzzy
+#~| msgid "Chiqimlar"
+#~ msgid "Chiqim"
+#~ msgstr "Расходы"
+
+#~ msgid "Barcha vaqtlar"
+#~ msgstr "За всё время"
+
+#~ msgid "Transport"
+#~ msgstr "Транспорт"
+
+#~ msgid "Oziq-ovqat"
+#~ msgstr "Продукты питания"

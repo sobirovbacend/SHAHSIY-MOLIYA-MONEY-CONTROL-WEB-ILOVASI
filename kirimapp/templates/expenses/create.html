@@ -1,99 +1,9 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block page_title %}
-Kirim Qo'shish
+{% trans "Kirim Qo'shish" %}
 {% endblock %}
-{% block sidebar %}
-<aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-white/[0.05] bg-white dark:bg-[#0b0e14] hidden md:flex flex-col z-30">
-
-    <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-white/[0.05]">
-        <div class="flex items-center gap-2">
-            <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white">
-                <span class="iconify" data-icon="lucide:zap" data-width="18"></span>
-            </div>
-            <span class="font-semibold text-lg text-slate-900 dark:text-white tracking-tight">MoneyCtrl</span>
-        </div>
-    </div>
-
-    <nav class="flex-1 overflow-y-auto py-6 space-y-1 px-3">
-        <a href="{% url 'dashboard' %}"
-           class="nav-item  w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-          text-slate-500 dark:text-slate-400
-          hover:text-slate-900 dark:hover:text-white
-          hover:bg-slate-100 dark:hover:bg-white/[0.03]
-          transition-all">
-            <span class="iconify" data-icon="lucide:layout-grid" data-width="18"></span>
-            Umumiy ko'rinish
-        </a>
-
-        <a href="{% url 'income-list' %}"
-           class="nav-item  w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-          text-slate-500 dark:text-slate-400
-          hover:text-slate-900 dark:hover:text-white
-          hover:bg-slate-100 dark:hover:bg-white/[0.03]
-          transition-all">
-
-            <span class="iconify" data-icon="lucide:arrow-down-left" data-width="18"></span>
-            Kirimlar
-        </a>
-
-        <a href="{% url 'expense-list' %}"
-           class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-          text-slate-500 dark:text-slate-400
-          hover:text-slate-900 dark:hover:text-white
-          hover:bg-slate-100 dark:hover:bg-white/[0.03]
-          transition-all">
-            <span class="iconify" data-icon="lucide:arrow-up-right" data-width="18"></span>
-            Chiqimlar
-        </a>
-
-        <a href="{% url 'account-list' %}"
-           class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-          text-slate-500 dark:text-slate-400
-          hover:text-slate-900 dark:hover:text-white
-          hover:bg-slate-100 dark:hover:bg-white/[0.03]
-          transition-all">
-            <span class="iconify" data-icon="lucide:wallet" data-width="18"></span>
-            Hisoblar
-        </a>
-
-
-        <a href="{% url 'report-list' %}"
-           class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-          text-slate-500 dark:text-slate-400
-          hover:text-slate-900 dark:hover:text-white
-          hover:bg-slate-100 dark:hover:bg-white/[0.03]
-          transition-all">
-            <span class="iconify" data-icon="lucide:pie-chart" data-width="18"></span>
-            Hisobotlar
-        </a>
-
-        <div class="pt-4 mt-4 border-t border-slate-200 dark:border-white/[0.05]">
-            <a href="{% url 'settings' %}"
-               class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-              text-slate-500 dark:text-slate-400
-              hover:text-slate-900 dark:hover:text-white
-              hover:bg-slate-100 dark:hover:bg-white/[0.03]
-              transition-all">
-                <span class="iconify" data-icon="lucide:settings" data-width="18"></span>
-                Sozlamalar
-            </a>
-        </div>
-    </nav>
-
-    <div class="p-4 border-t border-slate-200 dark:border-white/[0.05]">
-        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.03] cursor-pointer transition-colors">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-xs font-bold text-white">
-                AR
-            </div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ user.first_name }}</p>
-                <p class="text-xs text-slate-500 truncate">Pro akkaunt</p>
-            </div>
-        </div>
-    </div>
-</aside>
-{% endblock %}
+{% block title %}Income{% endblock %}
 
 {% block header%}
 <header class="h-16 flex items-center justify-between px-4 md:px-8 border-b border-slate-200 dark:border-white/[0.05] bg-white/80 dark:bg-[#0b0e14]/80 backdrop-blur-xl sticky top-0 z-20">
@@ -101,8 +11,7 @@ Kirim Qo'shish
         <button class="md:hidden p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
             <span class="iconify" data-icon="lucide:menu" data-width="20"></span>
         </button>
-        <h1 id="page-title" class="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">Chiqimlar
-            ro'yxati</h1>
+        <h1 id="page-title" class="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">{% trans "Chiqimlar ro'yxati" %}</h1>
     </div>
 
     <div class="flex items-center gap-4">
@@ -114,13 +23,6 @@ Kirim Qo'shish
                       data-width="12"></span>
             </div>
         </button>
-        <div class="hidden sm:flex items-center px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#151b25] gap-2">
-            <span class="text-xs text-slate-500 dark:text-slate-400">Asosiy valyuta:</span>
-            <div class="flex items-center gap-1 cursor-pointer">
-                <span class="text-xs font-semibold text-slate-900 dark:text-white">UZS (So'm)</span>
-                <span class="iconify text-slate-400" data-icon="lucide:chevron-down" data-width="12"></span>
-            </div>
-        </div>
         <div class="relative">
             <button onclick="toggleNotifications()"
                     class="p-2 relative text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-white/[0.05]">
@@ -128,32 +30,6 @@ Kirim Qo'shish
                 <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-[#0b0e14]"></span>
             </button>
             <!-- Notifications Dropdown -->
-            <div id="notification-panel"
-                 class="notification-popover hidden absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-[#151b25] border border-slate-200 dark:border-white/[0.08] shadow-xl z-50">
-                <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] flex justify-between items-center">
-                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Xabarnomalar</h3>
-                    <button class="text-xs text-blue-500 hover:text-blue-400">O'qilgan deb belgilash</button>
-                </div>
-                <div class="max-h-[300px] overflow-y-auto">
-                    <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors cursor-pointer flex gap-3">
-                        <div class="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center flex-shrink-0 text-rose-500">
-                            <span class="iconify" data-icon="lucide:alert-circle" data-width="16"></span>
-                        </div>
-                        <div>
-                            <p class="text-sm text-slate-800 dark:text-slate-200 font-medium">Oylik limit
-                                yaqinlashdi</p>
-                            <p class="text-xs text-slate-500 mt-1">Siz oziq-ovqat kategoriyasi bo'yicha 90% limitga
-                                yetdingiz.</p>
-                            <p class="text-[10px] text-slate-400 mt-2">2 soat oldin</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-2 border-t border-slate-200 dark:border-white/[0.05] text-center">
-                    <button class="text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 w-full py-2">
-                        Barchasini ko'rish
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </header>
@@ -172,8 +48,8 @@ Kirim Qo'shish
             <i data-lucide="arrow-left" class="w-5 h-5"></i>
         </a>
         <div>
-            <h2 class="text-lg font-medium tracking-tight text-gray-900 dark:text-white">Yangi Chiqim Qo'shish</h2>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Xarajatlarni ro'yxatga olish.</p>
+            <h2 class="text-lg font-medium tracking-tight text-gray-900 dark:text-white">{% trans "Yangi Chiqim Qo'shish" %}</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "Xarajatlarni ro'yxatga olish." %}</p>
         </div>
     </div>
 
@@ -196,7 +72,7 @@ Kirim Qo'shish
 
         <!-- SUMMA + VALYUTA -->
         <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Summa</label>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Summa" %}</label>
             <div class="relative">
                 {{ form.amount }}
                 <div class="absolute right-0 top-0 h-full">
@@ -211,7 +87,7 @@ Kirim Qo'shish
         <!-- KATEGORIYA + HISOB -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Kategoriya</label>
+                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Kategoriya" %}</label>
                 {{ form.category }}
                 {% if form.category.errors %}
                 <p class="text-red-500 text-xs mt-1">{{ form.category.errors.0 }}</p>
@@ -219,7 +95,7 @@ Kirim Qo'shish
             </div>
 
             <div>
-                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Qaysi hisobdan?</label>
+                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Qaysi hisobdan?" %}</label>
                 {{ form.account }}
                 {% if form.account.errors %}
                 <p class="text-red-500 text-xs mt-1">{{ form.account.errors.0 }}</p>
@@ -229,37 +105,17 @@ Kirim Qo'shish
 
         <!-- QABUL QILUVCHI -->
         <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Qabul qiluvchi /
-                Do‘kon</label>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Qabul qiluvchi" %}</label>
             {{ form.receiver }}
             {% if form.receiver.errors %}
             <p class="text-red-500 text-xs mt-1">{{ form.receiver.errors.0 }}</p>
             {% endif %}
         </div>
 
-        <!-- SANA + VAQT -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Sana</label>
-                {{ form.date }}
-                {% if form.date.errors %}
-                <p class="text-red-500 text-xs mt-1">{{ form.date.errors.0 }}</p>
-                {% endif %}
-            </div>
-
-            <div>
-                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Vaqt
-                    (ixtiyoriy)</label>
-                {{ form.time }}
-                {% if form.time.errors %}
-                <p class="text-red-500 text-xs mt-1">{{ form.time.errors.0 }}</p>
-                {% endif %}
-            </div>
-        </div>
 
         <!-- IZOH -->
         <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Izoh (ixtiyoriy)</label>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Izoh" %}</label>
             {{ form.note }}
             {% if form.note.errors %}
             <p class="text-red-500 text-xs mt-1">{{ form.note.errors.0 }}</p>
@@ -270,11 +126,11 @@ Kirim Qo'shish
         <div class="pt-4 border-t border-gray-100 dark:border-white/[0.05] flex justify-end gap-3">
             <a href="{% url 'expense-list' %}"
                class="px-6 py-2.5 text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white bg-white dark:bg-[#151b25] border border-gray-200 dark:border-white/[0.05] rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
-                Bekor qilish
+               {% trans " Bekor qilish" %}
             </a>
             <button type="submit"
                     class="px-6 py-2.5 bg-rose-600 text-white text-xs font-medium rounded-lg shadow-sm hover:bg-rose-700 transition-all flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4"></i> Saqlash
+                <i data-lucide="check" class="w-4 h-4"></i> {% trans "Saqlash" %}
             </button>
         </div>
     </form>

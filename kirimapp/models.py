@@ -4,21 +4,23 @@ from django.contrib.auth.models import User
 
 class Income(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="incomes")
-    source = models.CharField(max_length=100)   # Manba (Maosh, Freelance)
+    source = models.CharField(max_length=100)  # Manba (Maosh, Freelance)
     description = models.CharField(max_length=255, blank=True)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
-    currency = models.CharField(max_length=3, choices=[('UZS','UZS'),('USD','USD'),('EUR','EUR')], default='UZS')
+    currency = models.CharField(max_length=3, choices=[('UZS', 'UZS'), ('USD', 'USD'), ('EUR', 'EUR')], default='UZS')
     account = models.ForeignKey('Account', on_delete=models.CASCADE, related_name='incomes', null=True, blank=True)
-    date = models.DateField()   # foydalanuvchi tanlashi uchun
-    time = models.TimeField(null=True, blank=True)  # ixtiyoriy
+    # date → bugungi sana
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-date', '-time']
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.source} - {self.amount} {self.currency}"
 
+
+
+from django.utils import timezone
 
 class Expense(models.Model):
     CURRENCY_CHOICES = [
@@ -44,10 +46,11 @@ class Expense(models.Model):
         default='UZS'
     )
 
-    date = models.DateField()
+    # Sana va vaqt avtomatik qo'shiladi
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    time = models.TimeField(null=True, blank=True)
-
+    class Meta:
+        ordering = ['-created_at']  # oxirgi kirim yuqorida
     category = models.ForeignKey(
         'Category',
         on_delete=models.SET_NULL,
@@ -75,10 +78,11 @@ class Expense(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-date', '-time']
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.amount} {self.currency} - {self.receiver}"
+
 
 class Category(models.Model):
     CATEGORY_TYPE = (
@@ -110,10 +114,6 @@ class Currency(models.Model):
 
     def __str__(self):
         return self.code
-
-
-
-
 
 
 class Transaction(models.Model):
@@ -148,21 +148,15 @@ class Transaction(models.Model):
     category = models.CharField(max_length=50, null=True, blank=True)
 
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
-    date = models.DateField()
-    time = models.TimeField(null=True, blank=True)
     note = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-date', '-time']
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.user.username} - {self.amount} {self.currency} ({self.date})"
-
-
-
-
 
 
 class Account(models.Model):
@@ -198,7 +192,7 @@ class Account(models.Model):
     expiry_date = models.CharField(max_length=5, blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
-    color = models.CharField(max_length=20, default='gray')   # frontend badge / icon rangi
+    color = models.CharField(max_length=20, default='gray')  # frontend badge / icon rangi
     icon = models.CharField(max_length=30, default='wallet')  # lucide icon nomi
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -224,11 +218,3 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-# =====================
-# Category
-# =====================
-
-
-

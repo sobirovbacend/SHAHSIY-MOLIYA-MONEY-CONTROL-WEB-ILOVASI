@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from .models import *
+from django.utils.translation import gettext_lazy as _
 
 
 
@@ -14,28 +15,18 @@ class IncomeForm(forms.ModelForm):
             'currency',
             'source',
             'account',
-            'date',
-            'time',
             'description'
         ]
 
         widgets = {
             'source': forms.TextInput(attrs={
                 'class': 'w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#151b25] text-gray-900 dark:text-white text-sm',
-                'placeholder': 'Masalan: Maosh, Freelance'
-            }),
-            'date': forms.DateInput(attrs={
-                'type': 'date',
-                'class': 'w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#151b25] text-gray-900 dark:text-white text-sm'
-            }),
-            'time': forms.TimeInput(attrs={
-                'type': 'time',
-                'class': 'w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#151b25] text-gray-900 dark:text-white text-sm'
+                'placeholder': _('Masalan: Maosh, Freelance')
             }),
             'description': forms.Textarea(attrs={
                 'rows': 3,
                 'class': 'w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#151b25] text-gray-900 dark:text-white text-sm',
-                'placeholder': 'Izoh...'
+                'placeholder': _('Izoh...')
             }),
             'account': forms.Select(attrs={
                 'class': 'w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#151b25] text-gray-900 dark:text-white text-sm'
@@ -66,7 +57,7 @@ class IncomeForm(forms.ModelForm):
 class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
-        fields = ['amount', 'currency', 'category', 'account', 'receiver', 'note', 'date', 'time']
+        fields = ['amount', 'currency', 'category', 'account', 'receiver', 'note']
         widgets = {
             'amount': forms.NumberInput(attrs={
                 'class': 'w-full pl-4 pr-24 py-3 bg-gray-50 dark:bg-[#111827]/80 border border-gray-200 dark:border-white/10 rounded-lg text-lg font-medium text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-rose-500 transition-colors'
@@ -87,14 +78,6 @@ class ExpenseForm(forms.ModelForm):
                 'class': 'w-full px-3 py-2.5 bg-gray-50 dark:bg-[#111827]/80 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:border-gray-400',
                 'rows': 3
             }),
-            'date': forms.DateInput(attrs={
-                'type': 'date',
-                'class': 'w-full px-3 py-2.5 bg-gray-50 dark:bg-[#111827]/80 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:border-gray-400'
-            }),
-            'time': forms.TimeInput(attrs={
-                'type': 'time',
-                'class': 'w-full px-3 py-2.5 bg-gray-50 dark:bg-[#111827]/80 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:border-gray-400'
-            }),
         }
 
     def __init__(self, *args, **kwargs):
@@ -111,25 +94,23 @@ class ExpenseForm(forms.ModelForm):
         account = cleaned_data.get('account')
         currency = cleaned_data.get('currency')
 
-        if not amount or not account:
-            return cleaned_data
 
-        # 1️⃣ Valyuta mos kelishini tekshirish
         if account.currency != currency:
             raise ValidationError(
-                f"Hisob valyutasi ({account.currency}) bilan chiqim valyutasi ({currency}) mos emas."
+                _("Hisob valyutasi ({account_currency}) bilan chiqim valyutasi ({currency}) mos emas.").format(
+                    account_currency=account.currency,
+                    currency=currency
+                )
             )
 
-        # 2️⃣ Mablag‘ yetarlimi?
+        # Mablag' yetarlimi?
         if account.balance < amount:
             raise ValidationError(
-                f"Hisobda yetarli mablag‘ yo‘q. "
-                f"Mavjud: {account.balance} {account.currency}"
+                _("Hisobda yetarli mablag‘ yo‘q. Mavjud: {balance} {currency}").format(
+                    balance=account.balance,
+                    currency=account.currency
+                )
             )
-
-        return cleaned_data
-
-
 
 
 class AccountForm(forms.ModelForm):
@@ -156,7 +137,7 @@ class AccountForm(forms.ModelForm):
             }),
 
             'name': forms.TextInput(attrs={
-                'placeholder': 'Masalan: Asosiy karta',
+                'placeholder': _('Masalan: Asosiy karta'),
                 'class': 'w-full rounded-lg border border-gray-300 dark:border-gray-700 '
                          'bg-white dark:bg-gray-800 '
                          'text-gray-900 dark:text-gray-100 '
@@ -183,7 +164,7 @@ class AccountForm(forms.ModelForm):
             }),
 
             'bank_name': forms.TextInput(attrs={
-                'placeholder': 'Masalan: Kapitalbank',
+                'placeholder': _('Masalan: Kapitalbank'),
                 'class': 'w-full rounded-lg border border-gray-300 dark:border-gray-700 '
                          'bg-white dark:bg-gray-800 '
                          'text-gray-900 dark:text-gray-100 '
@@ -221,13 +202,13 @@ class AccountForm(forms.ModelForm):
 
         if acc_type in ['CARD', 'BANK']:
             if not bank_name:
-                self.add_error('bank_name', 'Bank nomini kiriting')
+                self.add_error('bank_name', _('Bank nomini kiriting'))
 
             if not last_four:
-                self.add_error('last_four_digits', 'Kartaning oxirgi 4 raqamini kiriting')
+                self.add_error('last_four_digits', _('Kartaning oxirgi 4 raqamini kiriting'))
 
             if last_four and len(last_four) != 4:
-                self.add_error('last_four_digits', 'Aniq 4 ta raqam bo‘lishi kerak')
+                self.add_error('last_four_digits', _('Aniq 4 ta raqam bo‘lishi kerak'))
 
         return cleaned_data
 
@@ -264,8 +245,6 @@ class TransactionForm(forms.ModelForm):
             'type',      # income type
             'category',  # expense category
             'account',
-            'date',
-            'time',
             'note',
         ]
         widgets = {
@@ -275,9 +254,7 @@ class TransactionForm(forms.ModelForm):
             'type': forms.Select(attrs={'class': 'input-field'}),
             'category': forms.Select(attrs={'class': 'input-field'}),
             'account': forms.Select(attrs={'class': 'input-field'}),
-            'date': forms.DateInput(attrs={'type': 'date', 'class': 'input-field'}),
-            'time': forms.TimeInput(attrs={'type': 'time', 'class': 'input-field'}),
-            'note': forms.Textarea(attrs={'rows': 3, 'class': 'input-field resize-none', 'placeholder': 'Izoh qoldiring...'}),
+            'note': forms.Textarea(attrs={'rows': 3, 'class': 'input-field resize-none', 'placeholder': _('Izoh qoldiring...')}),
         }
 
 

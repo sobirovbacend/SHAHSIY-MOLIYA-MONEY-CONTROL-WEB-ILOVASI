@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block page_title %}
-Kirim Qo'shish
+{% trans "Kirim Qo'shish" %}
 {% endblock %}
 {% block sidebar %}
 <aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-white/[0.05] bg-white dark:bg-[#0b0e14] hidden md:flex flex-col z-30">
@@ -101,8 +101,7 @@ Kirim Qo'shish
         <button class="md:hidden p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
             <span class="iconify" data-icon="lucide:menu" data-width="20"></span>
         </button>
-        <h1 id="page-title" class="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">Kirimlar
-            ro'yxati</h1>
+        <h1 id="page-title" class="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">{% trans "Kirimlar ro'yxati" %}</h1>
     </div>
 
     <div class="flex items-center gap-4">
@@ -115,9 +114,9 @@ Kirim Qo'shish
             </div>
         </button>
         <div class="hidden sm:flex items-center px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#151b25] gap-2">
-            <span class="text-xs text-slate-500 dark:text-slate-400">Asosiy valyuta:</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">{% trans "Asosiy valyuta:" %}</span>
             <div class="flex items-center gap-1 cursor-pointer">
-                <span class="text-xs font-semibold text-slate-900 dark:text-white">UZS (So'm)</span>
+                <span class="text-xs font-semibold text-slate-900 dark:text-white">UZS {% trans "(So'm)" %}</span>
                 <span class="iconify text-slate-400" data-icon="lucide:chevron-down" data-width="12"></span>
             </div>
         </div>
@@ -128,32 +127,7 @@ Kirim Qo'shish
                 <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-[#0b0e14]"></span>
             </button>
             <!-- Notifications Dropdown -->
-            <div id="notification-panel"
-                 class="notification-popover hidden absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-[#151b25] border border-slate-200 dark:border-white/[0.08] shadow-xl z-50">
-                <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] flex justify-between items-center">
-                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Xabarnomalar</h3>
-                    <button class="text-xs text-blue-500 hover:text-blue-400">O'qilgan deb belgilash</button>
-                </div>
-                <div class="max-h-[300px] overflow-y-auto">
-                    <div class="p-4 border-b border-slate-200 dark:border-white/[0.05] hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors cursor-pointer flex gap-3">
-                        <div class="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center flex-shrink-0 text-rose-500">
-                            <span class="iconify" data-icon="lucide:alert-circle" data-width="16"></span>
-                        </div>
-                        <div>
-                            <p class="text-sm text-slate-800 dark:text-slate-200 font-medium">Oylik limit
-                                yaqinlashdi</p>
-                            <p class="text-xs text-slate-500 mt-1">Siz oziq-ovqat kategoriyasi bo'yicha 90% limitga
-                                yetdingiz.</p>
-                            <p class="text-[10px] text-slate-400 mt-2">2 soat oldin</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-2 border-t border-slate-200 dark:border-white/[0.05] text-center">
-                    <button class="text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 w-full py-2">
-                        Barchasini ko'rish
-                    </button>
-                </div>
-            </div>
+
         </div>
     </div>
 </header>
@@ -173,18 +147,19 @@ Kirim Qo'shish
                 <span class="iconify" data-icon="lucide:arrow-left" data-width="20"></span>
             </a>
             <div>
-                <h2 class="text-lg font-medium text-gray-900 dark:text-white">Yangi Kirim Qo‘shish</h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Hisobingizga pul mablag‘ini kirim qilish</p>
+                <h2 class="text-lg font-medium text-gray-900 dark:text-white">{% trans "Yangi Kirim Qo‘shish" %}</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "Hisobingizga pul mablag‘ini kirim qilish" %}</p>
             </div>
         </div>
 
         <!-- FORM -->
-        <form method="POST" class="bg-white dark:bg-[#1f2937] p-8 rounded-xl border border-gray-200 dark:border-white/[0.05] shadow-sm space-y-6">
+        <form method="POST"
+              class="bg-white dark:bg-[#1f2937] p-8 rounded-xl border border-gray-200 dark:border-white/[0.05] shadow-sm space-y-6">
             {% csrf_token %}
 
             <!-- AMOUNT + CURRENCY -->
             <div>
-                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Summa va valyuta</label>
+                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Summa va valyuta" %}</label>
                 <div class="relative flex items-center">
                     {{ form.amount }}
                     <div class="absolute right-1 top-1 bottom-1">
@@ -192,62 +167,49 @@ Kirim Qo'shish
                     </div>
                 </div>
                 {% for error in form.amount.errors %}
-                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ error }}</p>
                 {% endfor %}
             </div>
 
             <!-- SOURCE + ACCOUNT -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Kirim turi</label>
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Kirim turi" %}</label>
                     {{ form.source }}
                     {% for error in form.source.errors %}
-                        <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
                     {% endfor %}
                 </div>
 
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Qaysi hisobga?</label>
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Qaysi hisobga?" %}</label>
                     {{ form.account }}
                     {% for error in form.account.errors %}
-                        <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
                     {% endfor %}
                 </div>
             </div>
 
-            <!-- DATE + TIME -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Sana</label>
-                    {{ form.date }}
-                    {% for error in form.date.errors %}
-                        <p class="text-red-500 text-xs mt-1">{{ error }}</p>
-                    {% endfor %}
-                </div>
 
-                <div>
-                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Vaqt (ixtiyoriy)</label>
-                    {{ form.time }}
-                    {% for error in form.time.errors %}
-                        <p class="text-red-500 text-xs mt-1">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
+
 
             <!-- DESCRIPTION -->
             <div>
-                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Izoh (ixtiyoriy)</label>
+                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">{% trans "Izoh"%}</label>
                 {{ form.description }}
                 {% for error in form.description.errors %}
-                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ error }}</p>
                 {% endfor %}
             </div>
 
             <!-- BUTTONS -->
             <div class="pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-3">
-                <a href="{% url 'income-list' %}" class="px-6 py-2.5 text-xs font-medium text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-white/[0.05] transition-colors">Bekor qilish</a>
-                <button type="submit" class="px-6 py-2.5 bg-emerald-600 text-white text-xs font-medium rounded-lg hover:bg-emerald-700 flex items-center gap-2">
-                    <span class="iconify" data-icon="lucide:check" data-width="16"></span> Saqlash
+                <a href="{% url 'income-list' %}"
+                   class="px-6 py-2.5 text-xs font-medium text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-white/[0.05] transition-colors">Bekor
+                    qilish</a>
+                <button type="submit"
+                        class="px-6 py-2.5 bg-emerald-600 text-white text-xs font-medium rounded-lg hover:bg-emerald-700 flex items-center gap-2">
+                    <span class="iconify" data-icon="lucide:check" data-width="16"></span> {% trans "Saqlash" %}
                 </button>
             </div>
         </form>
