@@ -13,7 +13,7 @@
 │   ├── reports.html           # Hisobotlar sahifasi
 │   └── settings.html          # Sozlamalar sahifasi
 
-
+pip install -r requirements.txt
 
 
 hisoblashi default valyutani misol :
@@ -23,3 +23,4 @@ hisoblashi default valyutani misol :
 | naqd           | 11,000  | UZS      | 11,000 × 1 = 11,000   |
 | Asosiy karta   | 20.00   | USD      | 20 × 12,500 = 250,000 |
 
+bu loyihada i18n kutubxonasi ornatildi va qolandi
