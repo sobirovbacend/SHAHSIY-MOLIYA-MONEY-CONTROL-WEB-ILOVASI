@@ -3,16 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 03:06+0500\n"
+"POT-Creation-Date: 2026-01-21 20:19+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,8 +34,6 @@ msgid "Masalan: Maosh, Freelance"
 msgstr "For example: Salary, Freelance"
 
 #: kirimapp/forms.py:29
-#, fuzzy
-#| msgid "Izoh"
 msgid "Izoh..."
 msgstr "Note"
 
@@ -63,8 +60,6 @@ msgid "Masalan: Kapitalbank"
 msgstr "For example: Kapitalbank"
 
 #: kirimapp/forms.py:205
-#, fuzzy
-#| msgid "Bank nomi"
 msgid "Bank nomini kiriting"
 msgstr "Enter the bank name"
 
@@ -170,20 +165,14 @@ msgid "Umumiy ko'rinish"
 msgstr "Overview"
 
 #: kirimapp/templates/dashboard.html:65
-#, fuzzy
-#| msgid "Yangi Kirim"
 msgid "Jami Kirim"
 msgstr "New Income"
 
 #: kirimapp/templates/dashboard.html:83
-#, fuzzy
-#| msgid "Yangi Chiqim"
 msgid "Jami Chiqim"
 msgstr "New Expense"
 
 #: kirimapp/templates/dashboard.html:102
-#, fuzzy
-#| msgid "Umumiy ko'rinish"
 msgid "Umumiy Balans"
 msgstr "Overview"
 
@@ -191,8 +180,6 @@ msgstr "Overview"
 #, python-format
 msgid "(Kirim: %(income)s UZS, Chiqim: %(expense)s UZS)"
 msgstr "(Income: %(income)s UZS, Expense: %(expense)s UZS)"
-
-
 
 #: kirimapp/templates/dashboard.html:128
 msgid "Moliyaviy tahlil"
@@ -444,12 +431,10 @@ msgstr "Home"
 #~ msgstr ""
 #~ "(Income: {{ total_income_uzs }} UZS, Expense: {{ total_expense_uzs }} UZS)"
 
-#, fuzzy
 #~| msgid "Kirimlar"
 #~ msgid "Kirim"
 #~ msgstr "Incomes"
 
-#, fuzzy
 #~| msgid "Chiqimlar"
 #~ msgid "Chiqim"
 #~ msgstr "Expenses"

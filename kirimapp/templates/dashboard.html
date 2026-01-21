@@ -226,30 +226,28 @@ Income
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-    // Grafik o'zgaruvchisi
     let dashboardChart;
 
-    // Grafik yaratish funksiyasi
     function createChart(labels, incomeData, expenseData) {
         const ctx = document.getElementById('dashboardChart').getContext('2d');
 
-        // Eski grafikni o'chirish
+        // Eski grafikni o‘chirish
         if (dashboardChart) {
             dashboardChart.destroy();
         }
-        console.log(gettext("Grafik ma'lumotlari:"));
-        console.log(gettext("Labels") + ":", labels);
-        console.log(gettext("Kirim") + ":", incomeData);
-        console.log(gettext("Chiqim") + ":", expenseData);
 
-        // Yangi grafik yaratish
+        console.log(LABEL_GRAPH_DATA);
+        console.log(LABEL_LABELS + ":", labels);
+        console.log(LABEL_INCOME + ":", incomeData);
+        console.log(LABEL_EXPENSE + ":", expenseData);
+
         dashboardChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [
                     {
-                        label: '(gettext("Kirim")',
+                        label: LABEL_INCOME,
                         data: incomeData,
                         borderColor: 'rgb(16, 185, 129)',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
@@ -262,7 +260,7 @@ Income
                         pointBorderWidth: 2,
                     },
                     {
-                        label: '(gettext("Chiqim")',
+                        label: LABEL_EXPENSE,
                         data: expenseData,
                         borderColor: 'rgb(239, 68, 68)',
                         backgroundColor: 'rgba(239, 68, 68, 0.1)',
@@ -279,36 +277,28 @@ Income
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
                 plugins: {
                     legend: {
-                        display: true,
                         position: 'top',
                         labels: {
-                            color: getComputedStyle(document.documentElement)
-                                .getPropertyValue('--text-color') || '#64748b',
+                            color: '#64748b',
                             usePointStyle: true,
                             padding: 20,
-                            font: {
-                                size: 12
-                            }
+                            font: { size: 12 }
                         }
                     },
                     tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        backgroundColor: 'rgba(0,0,0,0.8)',
                         padding: 12,
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        borderColor: 'rgba(255, 255, 255, 0.1)',
-                        borderWidth: 1,
-                        displayColors: true,
                         callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                label += new Intl.NumberFormat('uz-UZ').format(context.parsed.y) + ' UZS';
-                                return label;
+                            label: function (context) {
+                                return `${context.dataset.label}: ` +
+                                    new Intl.NumberFormat('uz-UZ').format(context.parsed.y) +
+                                    ' UZS';
                             }
                         }
                     }
@@ -316,75 +306,40 @@ Income
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: {
-                            color: 'rgba(148, 163, 184, 0.1)',
-                            drawBorder: false
-                        },
                         ticks: {
-                            color: '#94a3b8',
-                            callback: function(value) {
-                                return new Intl.NumberFormat('uz-UZ', {
-                                    notation: 'compact',
-                                    compactDisplay: 'short'
-                                }).format(value);
-                            }
+                            callback: value =>
+                                new Intl.NumberFormat('uz-UZ', {
+                                    notation: 'compact'
+                                }).format(value)
                         }
                     },
                     x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        ticks: {
-                            color: '#94a3b8'
-                        }
+                        grid: { display: false }
                     }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index'
                 }
             }
         });
     }
 
-    // Ma'lumotlarni yuklash funksiyasi
     function loadChartData(period) {
-        console.log('🔄 Ma\'lumotlar yuklanmoqda, davr:', period);
-
         fetch(`/api/financial-analysis/?period=${period}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP xatosi! Status: ${response.status}`);
-                }
-                return response.json();
-            })
+            .then(res => res.json())
             .then(data => {
-                console.log('✅ Ma\'lumotlar muvaffaqiyatli yuklandi:', data);
-
-                if (!data.labels || !data.income || !data.expense) {
-                    console.error('❌ Noto\'g\'ri ma\'lumot formati:', data);
-                    return;
+                if (data.labels && data.income && data.expense) {
+                    createChart(data.labels, data.income, data.expense);
                 }
-
-                createChart(data.labels, data.income, data.expense);
             })
-            .catch(error => {
-                console.error('❌ Xatolik yuz berdi:', error);
-            });
+            .catch(err => console.error(err));
     }
 
-    // Period o'zgarganda grafik yangilash
-    document.getElementById('periodSelect').addEventListener('change', function() {
-        loadChartData(this.value);
-    });
+    document.getElementById('periodSelect')
+        .addEventListener('change', e => loadChartData(e.target.value));
 
-    // Sahifa yuklanganda dastlabki grafik yaratish
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('📄 Sahifa yuklandi, grafik yaratilmoqda...');
+    document.addEventListener('DOMContentLoaded', () => {
         loadChartData('month');
     });
 </script>
+
 {% endblock %}
 
 

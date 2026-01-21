@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 03:06+0500\n"
+"POT-Creation-Date: 2026-01-21 20:12+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,13 +33,13 @@ msgid "Russian"
 msgstr ""
 
 #: kirimapp/forms.py:24
-#, fuzzy
+
 #| msgid "Masalan: Asosiy karta"
 msgid "Masalan: Maosh, Freelance"
 msgstr "Например: Основная карта"
 
 #: kirimapp/forms.py:29
-#, fuzzy
+
 #| msgid "Izoh"
 msgid "Izoh..."
 msgstr "Комментарий"
@@ -67,7 +67,7 @@ msgid "Masalan: Kapitalbank"
 msgstr "Например: Kapitalbank"
 
 #: kirimapp/forms.py:205
-#, fuzzy
+
 #| msgid "Bank nomi"
 msgid "Bank nomini kiriting"
 msgstr "Введите название банка"
@@ -96,7 +96,7 @@ msgid "Yangi Hisob Qo'shish"
 msgstr "Добавить новый счёт"
 
 #: kirimapp/templates/accounts/create.html:58
-#, fuzzy
+
 #| msgid "Yangi Hisob Qo'shish"
 msgid " Yangi Hisob Ochish"
 msgstr "Добавить новый счёт"
@@ -176,28 +176,31 @@ msgid "Umumiy ko'rinish"
 msgstr "Общий обзор"
 
 #: kirimapp/templates/dashboard.html:65
-#, fuzzy
+
 #| msgid "Yangi Kirim"
 msgid "Jami Kirim"
 msgstr "Новый доход"
 
 #: kirimapp/templates/dashboard.html:83
-#, fuzzy
+
 #| msgid "Yangi Chiqim"
 msgid "Jami Chiqim"
 msgstr "Новый расход"
 
 #: kirimapp/templates/dashboard.html:102
-#, fuzzy
+
 #| msgid "Umumiy ko'rinish"
 msgid "Umumiy Balans"
 msgstr "Общий обзор"
 
 #: kirimapp/templates/dashboard.html:112
-#, python-format
-msgid "(Kirim: %(income)s UZS, Chiqim: %(expense)s UZS)"
+#, fuzzy, python-format
+#| msgid "(Kirim: %(income)s UZS, Chiqim: %(expense)s UZS)"
+msgid ""
+"\n"
+"                        (Kirim: %(income)s UZS, Chiqim: %(expense)s UZS)\n"
+"                        "
 msgstr "(Доход: %(income)s UZS, Расход: %(expense)s UZS)"
-
 
 #: kirimapp/templates/dashboard.html:128
 msgid "Moliyaviy tahlil"
@@ -449,12 +452,12 @@ msgstr "Главная страница"
 #~ msgstr ""
 #~ "(Доход: {{ total_income_uzs }} UZS, Расход: {{ total_expense_uzs }} UZS)"
 
-#, fuzzy
+
 #~| msgid "Kirimlar"
 #~ msgid "Kirim"
 #~ msgstr "Доходы"
 
-#, fuzzy
+
 #~| msgid "Chiqimlar"
 #~ msgid "Chiqim"
 #~ msgstr "Расходы"
